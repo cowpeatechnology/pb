@@ -1,5 +1,5 @@
-package newClanAndKindom_pb
+package main
 
-func fromPb() {
+func main() {
 	println("print pb")
 }
