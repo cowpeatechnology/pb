@@ -1,3 +1,3 @@
-module cowpeatechnology/newClanAndKindom-pb
+module github.com/cowpeatechnology/pb
 
 go 1.19

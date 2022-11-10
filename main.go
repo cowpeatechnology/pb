@@ -1,8 +1,4 @@
-package main
-
-func main() {
-	println("print pb")
-}
+package pb
 
 func TestSelf() {
 	println("TestSelf")
