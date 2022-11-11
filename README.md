@@ -1,4 +1,2 @@
 # pb
-Test is test file.
-
-this is my common
+《家族与王国》所需Proto文件以及编译后的pb.go文件
