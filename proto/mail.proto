@@ -1,0 +1,143 @@
+syntax = "proto3";
+import "pb/proto/common.proto";
+
+package pb;
+option go_package = "/pb;pb";
+
+message MailReq {
+  oneof req {
+    GetsMailReq gets_mail_req = 1;                     //获取邮件列表
+    ReadMailReq read_mail_req = 2;                     //读邮件
+    GetsMailRewardsReq gets_mail_reward_req = 3;       //领取奖励
+    DeleteMailReq delete_mail_req = 4;                 //删除邮件
+    GetsAllMailRewardReq gets_all_mail_reward_req = 5; //一键领取
+    DeleteAllReadMailReq delete_all_read_mail_req = 6; // 一键删除
+  }
+}
+
+message MailRes {
+  oneof res {
+    GetsMailRes gets_mail_res = 1;                     //获取邮件列表
+    ReadMailRes read_mail_res = 2;                     //读邮件
+    GetsMailRewardsRes gets_mail_reward_res = 3;       //领取奖励
+    DeleteMailRes delete_mail_res = 4;                 //删除邮件
+    GetsAllMailRewardRes gets_all_mail_reward_res = 5; //一键领取
+    DeleteAllReadMailRes delete_all_read_mail_res = 6; // 一键删除
+    NewMailNotify new_mail_notify = 100;               //新邮件提示
+  }
+}
+
+//////////////////////////////////////////
+message GetsMailReq {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+}
+
+message ReadMailReq {
+  // @inject_tag: json:"mail_id"
+  int32 mail_id = 1; //邮件Id
+}
+
+message GetsMailRewardsReq {
+  // @inject_tag: json:"mail_id"
+  int32 mail_id = 1; //邮件Id
+}
+
+message DeleteMailReq {
+  // @inject_tag: json:"mail_id"
+  int32 mail_id = 1; //邮件Id
+}
+
+message GetsAllMailRewardReq {}
+
+message DeleteAllReadMailReq {}
+/////////////////////////////////////////
+message GetsMailRes {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"total"
+  int32 total = 3;
+  // @inject_tag: json:"mails"
+  repeated Mail mails = 4;
+}
+
+message ReadMailRes {
+  // @inject_tag: json:"mail"
+  Mail mail = 1;
+  // @inject_tag: json:"content"
+  string content = 2;
+  // @inject_tag: json:"rewards"
+  repeated GoodsCount rewards = 3;
+}
+
+message GetsMailRewardsRes {
+  enum Result {
+    Success = 0;
+    NoMail = 1;          //邮件不存在
+    NoReward = 2;        //没有奖励
+    Reward = 3;          //奖励已领取
+    MysqlErr = 4;        //数据库异常
+    WareHouseIsFull = 5; //仓库已满
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"mail"
+  Mail mail = 2;
+  // @inject_tag: json:"rewards"
+  repeated GoodsCount rewards = 3;
+}
+
+message DeleteMailRes {
+  enum Result {
+    Success = 0;
+    MysqlErr = 1; //数据库异常
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message GetsAllMailRewardRes {
+  enum Result {
+    Success = 0;
+    MysqlErr = 1;        //数据库异常
+    NoReward = 2;        //没有奖励
+    WareHouseIsFull = 3; //仓库已满
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"rewards"
+  repeated GoodsCount rewards = 2;
+}
+
+message DeleteAllReadMailRes {
+  enum Result {
+    Success = 0;
+    MysqlErr = 1; //数据库异常
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message NewMailNotify {}
+/////////////////////////////////////////
+message Mail {
+  // @inject_tag: json:"id"
+  int32 id = 1;
+  // @inject_tag: json:"title"
+  string title = 2;
+  // @inject_tag: json:"sender"
+  string sender = 3;
+  enum Status {
+    Unread = 0;   //未读
+    UnReward = 1; //已读未领奖
+    Reward = 2;   //已读已领奖
+  }
+  // @inject_tag: json:"status"
+  Status status = 4;
+  // @inject_tag: json:"create_at"
+  int64 create_at = 5; //创建时间
+}

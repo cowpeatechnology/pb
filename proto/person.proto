@@ -1,0 +1,505 @@
+syntax = "proto3";
+import "pb/proto/common.proto";
+
+package pb;
+option go_package = "/pb;pb";
+
+message PersonReq {
+  oneof req {
+    GetsPersonReq gets_person_req = 1;              //获取族人
+    GetPersonReq get_person_req = 2;                //获取族人属性
+    DrawPersonReq draw_person_req = 3;              //繁衍族人,不传值时为祈求族人
+    GetPersonUpgradeReq get_person_upgrade_req = 4; //获取升级信息
+    UpgradePersonReq upgrade_person_req = 5;        //族人使用经验书升级
+    AddPersonPointReq add_person_point_req = 6;     //加点
+    LoadDeviceReq load_device_req = 7;              //装载（更换）设备
+    UnloadDeviceReq unload_device_req = 8;          //卸载设备
+    GetEducateEffectReq get_educate_effect_req = 9; //获取培养效果
+    EducateReq educate_req = 10;                    //培养
+    GenealogyReq genealogy_req = 11;                //族谱
+    ResetPersonReq reset_person_req = 12;           //重置族人
+    LightSkillTreeReq light_skill_tree_req = 13;    //点亮技能树
+
+    LoadSoulReq load_soul_req = 14;                   //装载（更换）契约
+    UnloadSoulReq unload_soul_req = 15;               //卸载契约
+    GetsPersonSoulReq gets_person_soul_req = 16;      //获取契约
+    RecyclePersonReq recycle_person_req = 17;         //系统回收
+    GetLineupReq get_lineup_req = 18;                 //获取阵容
+    LineupPersonReq lineup_person_req = 19;           //上阵族人
+    GetsDeploymentReq gets_deployment_req = 20;       //获取阵法
+    StudySoulsReq study_souls_req = 21;               //学习契约
+    SwitchDeploymentReq switch_deployment_req = 22;   //切换阵法
+    UpgradeDeploymentReq upgrade_deployment_req = 23; //升级阵法
+    UnlineupPersonReq unlineup_person_req = 24;       //上阵族人
+    UpgradeSkillTreeReq upgrade_skill_tree_req = 25;  //升级技能树
+    SetInheritWordReq set_inherit_word_req = 26;      //设置传承词条
+
+    LoadPersonSkillReq load_person_skill_req = 27;      //装载技能
+    UnLoadPersonSkillReq unload_person_skill_req = 28;      //卸载技能
+
+    ResetPersonAddPointReq reset_person_add_point_req = 29;           //重置族人加点属性
+  }
+}
+
+message PersonRes {
+  oneof res {
+    GetsPersonRes gets_person_res = 1;              //获取族人
+    GetPersonRes get_person_res = 2;                //获取族人属性
+    DrawPersonRes draw_person_res = 3;              //繁衍族人
+    GetPersonUpgradeRes get_person_upgrade_res = 4; //获取升级信息
+    UpgradePersonRes upgrade_person_res = 5;        //族人使用经验书升级
+    AddPersonPointRes add_person_point_res = 6;     //加点
+    LoadDeviceRes load_device_res = 7;              //装载（更换）设备
+    UnloadDeviceRes unload_device_res = 8;          //卸载设备
+    GetEducateEffectRes get_educate_effect_res = 9; //获取培养效果
+    EducateRes educate_res = 10;                    //培养
+    GenealogyRes genealogy_res = 11;                //族谱
+    ResetPersonRes reset_person_res = 12;           //重置族人
+    LightSkillTreeRes light_skill_tree_res = 13;    //点亮技能树
+
+    LoadSoulRes load_soul_res = 14;                   //装载（更换）契约
+    UnloadSoulRes unload_soul_res = 15;               //卸载契约
+    GetsPersonSoulRes gets_person_soul_res = 16;      //获取契约
+    RecyclePersonRes recycle_person_res = 17;         //系统回收
+    GetLineupRes get_lineup_res = 18;                 //获取阵容
+    LineupPersonRes lineup_person_res = 19;           //上阵族人
+    GetsDeploymentRes gets_deployment_res = 20;       //获取阵法
+    StudySoulsRes study_souls_res = 21;               //学习契约
+    SwitchDeploymentRes switch_deployment_res = 22;   //切换阵法
+    UpgradeDeploymentRes upgrade_deployment_res = 23; //升级阵法
+    UnlineupPersonRes unlineup_person_res = 24;       //上阵族人
+    UpgradeSkillTreeRes upgrade_skill_tree_res = 25;  //升级技能树
+    SetInheritWordRes set_inherit_word_res = 26;      //设置传承词条
+
+
+    LoadPersonSkillRes load_person_skill_res = 27;      //装载技能
+    UnLoadPersonSkillRes unload_person_skill_res = 28;      //卸载技能
+    ResetPersonAddPointRes reset_person_add_point_res = 29;           //重置族人加点属性
+  }
+}
+
+//////////////////////////////////////////////////////
+message GetsPersonReq {
+  // @inject_tag: json:"idle"
+  bool idle = 1;
+}
+
+message GetPersonReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+}
+
+message DrawPersonReq {
+  // @inject_tag: json:"parent_id"
+  int64 parent_id = 1; //父辈ID
+}
+
+message GetPersonUpgradeReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+}
+
+message UpgradePersonReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+  // @inject_tag: json:"book_count"
+  int32 book_count = 2;
+}
+
+message AddPersonPointReq {
+  // @inject_tag: json:"person_id"
+  int64 PersonId = 1;
+  // @inject_tag: json:"points"
+  map<int32, int32> points = 2; //key-属性,val-当前加的点
+}
+
+message LoadDeviceReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+  // @inject_tag: json:"pos"
+  int32 pos = 2;
+  // @inject_tag: json:"player_goods_id"
+  int64 player_goods_id = 3; //玩家的goods id
+}
+
+message UnloadDeviceReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+  // @inject_tag: json:"pos"
+  int32 pos = 2;
+}
+
+message GetsPersonSoulReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1; //族人ID
+  // @inject_tag: json:"quality"
+  int32 quality = 2; //品质 （0-全部，1-普通，2-稀有，3-史诗，4-传说）
+  // @inject_tag: json:"sub_device_type"
+  int32 sub_device_type = 3; //适用的武器
+  // @inject_tag: json:"unload"
+  bool unload = 4; //只获取未装载的
+}
+
+message LoadSoulReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+  // @inject_tag: json:"soul_id"
+  int32 soul_id = 2; // soul id
+  // @inject_tag: json:"pos"
+  int32 pos = 3;
+}
+
+message UnloadSoulReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+  // @inject_tag: json:"pos"
+  int32 pos = 2;
+}
+
+message RecyclePersonReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+}
+
+message GetEducateEffectReq {
+  // @inject_tag: json:"teacher_id"
+  int64 teacher_id = 1; //教师
+  // @inject_tag: json:"educate_type"
+  int32 educate_type =
+      2; //培养类型 0-农业，1-工业，2-管理，3-贸易，4-军事，5-战斗
+}
+
+message EducateReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1; //被培养对象
+  // @inject_tag: json:"teacher_id"
+  int64 teacher_id = 2; //教师
+  // @inject_tag: json:"educate_type"
+  int32 educate_type =
+      3; //培养类型 0-农业，1-工业，2-管理，3-贸易，4-军事，5-战斗
+}
+
+message GenealogyReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1; //族人ID
+}
+
+message GetLineupReq {}
+
+message LineupPersonReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1; //族人ID
+  // @inject_tag: json:"pos"
+  int32 pos = 2; //位置
+}
+
+message GetsDeploymentReq {}
+
+message StudySoulsReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1; //族人ID
+  // @inject_tag: json:"soul_id"
+  int32 soul_id = 2; // soul_id
+}
+
+message SwitchDeploymentReq {
+  // @inject_tag: json:"deployment_id"
+  int32 deployment_id = 1; //阵法ID
+}
+
+message UpgradeDeploymentReq {
+  // @inject_tag: json:"deployment_id"
+  int32 deployment_id = 1; //阵法ID
+}
+
+message UnlineupPersonReq {
+  // @inject_tag: json:"pos"
+  int32 pos = 1; //位置
+}
+
+message ResetPersonReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1; //族人ID
+}
+
+message LightSkillTreeReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1; //族人ID
+  // @inject_tag: json:"tree_id"
+  int32 tree_id = 2; //树
+  // @inject_tag: json:"layer_id"
+  int32 layer_id = 3; //层数
+  // @inject_tag: json:"skill_id"
+  int32 skill_id = 4; //技能ID
+}
+
+message UpgradeSkillTreeReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+  // @inject_tag: json:"book_count"
+  int32 book_count = 2;
+  // @inject_tag: json:"skill_tree"
+  int32 skill_tree = 3;
+}
+
+message SetInheritWordReq{
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+  // @inject_tag: json:"word_id"
+  int32 word_id = 2;
+}
+
+message    LoadPersonSkillReq{
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+  // @inject_tag: json:"skill_id"
+  int32 skill_id = 2; // skill_id
+  // @inject_tag: json:"pos"
+  int32 pos = 3;   //同样位置有技能直接替换  1 2 3pos位置
+  // @inject_tag: json:"level"
+  int32 level = 4;
+}
+
+message    ResetPersonAddPointReq{
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1; //族人ID
+}
+
+message    UnLoadPersonSkillReq{
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+  // @inject_tag: json:"pos"
+  int32 pos = 2;   // 1 2 3pos位置
+
+}
+//////////////////////////////////////////////////////
+message GetsPersonRes {
+  // @inject_tag: json:"persons"
+  repeated Person persons = 1;
+}
+
+message GetPersonRes {
+  // @inject_tag: json:"persons"
+  PersonInfo person = 1;
+}
+
+message DrawPersonRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"person_info"
+  PersonInfo person_info = 2;
+}
+
+message GetPersonUpgradeRes {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+  // @inject_tag: json:"book_count"
+  int32 book_count = 2;
+  // @inject_tag: json:"upgrade_count"
+  int32 upgrade_count = 3;
+}
+
+message UpgradePersonRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"person"
+  PersonInfo person = 2;
+  // @inject_tag: json:"book_count"
+  int32 used_book_count = 3; //实际使用的经验书
+  // @inject_tag: json:"upgrade_count"
+  int32 upgrade_count = 4;   //升级等级
+}
+
+message AddPersonPointRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"person"
+  PersonInfo person = 2;
+}
+
+message LoadDeviceRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"person"
+  PersonInfo person = 2;
+}
+
+message UnloadDeviceRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"person"
+  PersonInfo person = 2;
+}
+
+message GetsPersonSoulRes {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+  // @inject_tag: json:"quality"
+  int32 quality = 2; //品质 （0-全部，1-普通，2-稀有，3-史诗，4-传说）
+  // @inject_tag: json:"sub_device_type"
+  int32 sub_device_type = 3; //适用的武器
+  // @inject_tag: json:"unload"
+  bool unload = 4; //只获取未装载的
+  // @inject_tag: json:"souls"
+  repeated PersonSoul souls = 5;
+}
+
+message LoadSoulRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"person"
+  PersonInfo person = 2;
+}
+
+message UnloadSoulRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"person"
+  PersonInfo person = 2;
+}
+
+message RecyclePersonRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message GetEducateEffectRes {
+  // @inject_tag: json:"success"
+  int32 success = 1; //成功概率（百分比）
+  // @inject_tag: json:"properties"
+  map<int32, float> properties = 2; //增加属性
+}
+
+message EducateRes {
+  // @inject_tag: json:"result"
+  Result result = 1; //培养结果
+  // @inject_tag: json:"properties"
+  map<int32, float> properties = 2; //增加属性
+  // @inject_tag: json:"person"
+  PersonInfo person = 3; //族人信息
+}
+
+message GenealogyRes {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1; //族人ID
+  // @inject_tag: json:"parent"
+  Person parent = 2; //父辈
+  // @inject_tag: json:"brothers"
+  repeated Person brothers = 3; //兄弟
+  // @inject_tag: json:"sons"
+  repeated Person sons = 4; //儿子
+}
+
+message GetLineupRes {
+  // @inject_tag: json:"lineup"
+  LineupInfo lineup = 1; //阵容
+  // @inject_tag: json:"deployment"
+  Deployment deployment = 2; //阵法
+}
+
+message LineupPersonRes {
+  // @inject_tag: json:"lineup"
+  LineupInfo lineup = 1; //阵容
+}
+
+message GetsDeploymentRes {
+  // @inject_tag: json:"deployments"
+  repeated Deployment deployments = 1; //阵法
+}
+
+message StudySoulsRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message SwitchDeploymentRes {
+  // @inject_tag: json:"result"
+  Result result = 1; //结果
+  // @inject_tag: json:"lineup"
+  LineupInfo lineup = 2; //阵容
+  // @inject_tag: json:"deployment"
+  Deployment deployment = 3; //阵法
+}
+
+message UpgradeDeploymentRes {
+  // @inject_tag: json:"result"
+  Result result = 1; //结果
+  // @inject_tag: json:"deployment"
+  Deployment deployment = 2; //阵法
+}
+
+message UnlineupPersonRes {
+  // @inject_tag: json:"lineup"
+  LineupInfo lineup = 1; //阵容
+}
+
+message ResetPersonRes {
+  // @inject_tag: json:"result"
+  Result result = 1; //结果
+  // @inject_tag: json:"person"
+  PersonInfo person = 2; //族人
+}
+
+message LightSkillTreeRes {
+  // @inject_tag: json:"result"
+  Result result = 1; //结果
+  // @inject_tag: json:"person"
+  PersonInfo person = 2; //族人
+}
+
+message UpgradeSkillTreeRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"person"
+  PersonInfo person = 2;
+  // @inject_tag: json:"book_count"
+  int32 used_book_count = 3; //实际使用的经验书
+}
+
+message SetInheritWordRes{
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message    LoadPersonSkillRes{
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"person"
+  PersonInfo person = 2;
+}
+
+
+message    UnLoadPersonSkillRes{
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"person"
+  PersonInfo person = 2;
+}
+
+message ResetPersonAddPointRes {
+  // @inject_tag: json:"result"
+  Result result = 1; //结果
+  // @inject_tag: json:"person"
+  PersonInfo person = 2; //族人
+}
+//////////////////////////////////////////////////////
+
+message Deployment {
+  // @inject_tag: json:"deployment_id"
+  int32 deployment_id = 1; //阵法Id
+  // @inject_tag: json:"level"
+  int32 level = 2; //等级
+  // @inject_tag: json:"max_level"
+  int32 max_level = 3; //最大等级
+  // @inject_tag: json:"positions"
+  map<int32, DeploymentPos> positions = 4; //位置信息 key:pos 1-9
+  // @inject_tag: json:"max_extra"
+  map<int32, int32> max_extra = 5; //満级加成
+}
+
+message DeploymentPos {
+  // @inject_tag: json:"property_extra"
+  map<int32, float> property_extra = 1; //属性加成
+  // @inject_tag: json:"affect_extra"
+  map<int32, float> affect_extra = 2; //效果加成
+}

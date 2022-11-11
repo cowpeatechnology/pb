@@ -1,0 +1,238 @@
+syntax = "proto3";
+import "pb/proto/common.proto";
+
+package pb;
+option go_package = "/pb;pb";
+
+message FamilyReq {
+  oneof req {
+    EnterFamilyReq enter_family_req = 1; //进入家族
+    ExitFamilyReq exit_family_req = 2;   //离开家族
+    CreateBuildReq create_build_req = 3; //创建建筑
+    CancelBuildReq cancel_build_req = 4; //取消建设中的建筑
+    DeleteBuildReq delete_build_req = 5; //拆除建筑
+    GetsSeedReq gets_seed_req = 6;       //获取可以种植的种子
+    PlantSeedReq plant_seed_req = 7;     //种植
+    HarvestReq harvest_req = 8;          //收割庄稼
+  }
+}
+
+message FamilyRes {
+  oneof res {
+    EnterFamilyRes enter_family_res = 1;       //进入家族
+    ExitFamilyRes exit_family_res = 2;         //离开家族
+    CreateBuildRes create_build_res = 3;       //创建建筑
+    CancelBuildRes cancel_build_res = 4;       //取消建设中的建筑
+    DeleteBuildRes delete_build_res = 5;       //拆除建筑
+    GetsSeedRes gets_seed_res = 6;             //获取可以种植的种子
+    PlantSeedRes plant_seed_res = 7;           //种植
+    HarvestRes harvest_res = 8;                //收割庄稼
+    BuildStateNotify build_state_notify = 100; //建筑状态变化
+  }
+}
+
+////////////////////////////////////////////
+message EnterFamilyReq {}
+
+message ExitFamilyReq {}
+message CreateBuildReq {
+  // @inject_tag: json:"build_conf_id"
+  int32 build_conf_id = 1;
+  // @inject_tag: json:"level"
+  int32 level = 2;
+  // @inject_tag: json:"poses"
+  repeated int32 poses = 3;
+}
+
+message CancelBuildReq {
+  // @inject_tag: json:"build_id"
+  int32 build_id = 1; //建筑Id
+}
+
+message DeleteBuildReq {
+  // @inject_tag: json:"build_id"
+  int32 build_id = 1; //建筑Id
+}
+
+message GetsSeedReq {
+  // @inject_tag: json:"build_id"
+  int32 build_id = 1; //建筑Id
+}
+
+message PlantSeedReq {
+  // @inject_tag: json:"build_id"
+  int32 build_id = 1; //建筑Id
+  // @inject_tag: json:"goods_id"
+  int32 goods_id = 2; //种子Id
+}
+
+message HarvestReq {
+  // @inject_tag: json:"build_id"
+  int32 build_id = 1; //建筑Id
+}
+////////////////////////////////////////////
+message EnterFamilyRes {
+  // @inject_tag: json:"server_time"
+  int64 server_time = 1;
+  // @inject_tag: json:"builds"
+  repeated PlayerBuild builds = 2;
+}
+
+message ExitFamilyRes {}
+
+message CreateBuildRes {
+  enum Result {
+    Success = 0;     //建筑成功
+    NoBuildConf = 1; //建筑设施不存在
+    BuildLimit = 2;  //超出建筑最大数量
+    HasBuild = 3;    //位置上已存在建筑
+    GoodsError = 4;  //所需资源不足
+    MysqlError = 5;  //数据库异常
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"build"
+  PlayerBuild build = 2;
+  // @inject_tag: json:"upgrade_goods"
+  repeated GoodsCount upgrade_goods = 3; //升级所需资源
+}
+
+message CancelBuildRes {
+  enum Result {
+    Success = 0;     //取消建筑成功
+    MysqlError = 1;  //数据库异常
+    NotExist = 2;    //建筑不存在
+    NoBuildConf = 3; //建筑设施不存在
+    BuildFinish = 4; //建造已完成
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"build_id"
+  int32 build_id = 2; //建筑Id
+  // @inject_tag: json:"upgrade_goods"
+  repeated GoodsCount upgrade_goods = 3; //返回升级所需资源
+}
+
+message DeleteBuildRes {
+  enum Result {
+    Success = 0;    //取消建筑成功
+    MysqlError = 1; //数据库异常
+    NotExist = 2;   //建筑不存在
+    Building = 3;   //建造中
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"build_id"
+  int32 build_id = 2; //建筑Id
+}
+
+message GetsSeedRes {
+  // @inject_tag: json:"build_id"
+  int32 build_id = 1;      //建筑Id
+  // @inject_tag: json:"seeds"
+  repeated Seed seeds = 2; //种子数量
+}
+
+message PlantSeedRes {
+  enum Result {
+    Success = 0;
+    NoBuild = 1;        //建筑不存在
+    BuildStatusErr = 2; //建筑物状态不对
+    BuildConfErr = 3;   //建筑设施不对
+    PlayerSeedErr = 4;  //玩家种子不够
+    PlantStageErr = 5;  //成长阶段错误
+    MysqlError = 6;     //数据库异常
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"build"
+  PlayerBuild build = 2;
+}
+
+message HarvestRes {
+  enum Result {
+    Success = 0;
+    MysqlError = 1; //数据库异常
+    NoBuild = 2;    //建筑不存在
+    NoPlanting = 3; //建筑物上未种植
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"build"
+  PlayerBuild build = 2;
+  // @inject_tag: json:"goods_count"
+  GoodsCount goods_count = 3; //增加的农作物
+}
+
+message BuildStateNotify {
+  enum Result {
+    Success = 0;     //建筑成功
+    NoBuildConf = 1; //建筑设施不存在
+    BuildLimit = 2;  //超出建筑最大数量
+    HasBuild = 3;    //位置上已存在建筑
+    GoodsError = 4;  //所需资源不足
+    MysqlError = 5;  //数据库异常
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"build"
+  PlayerBuild build = 2;
+  // @inject_tag: json:"upgrade_goods"
+  repeated GoodsCount upgrade_goods = 3; //升级所需资源
+}
+////////////////////////////////////////////
+message PlayerBuild {
+  // @inject_tag: json:"id"
+  int32 id = 1;
+  // @inject_tag: json:"build_conf_id"
+  int32 build_conf_id = 2;
+  // @inject_tag: json:"level"
+  int32 level = 3;
+  enum Status {
+    Normal = 0;   //空闲中
+    Building = 1; //建造中
+    Planting = 2; //种植中
+  }
+  // @inject_tag: json:"status"
+  Status status = 4;
+  // @inject_tag: json:"update_at"
+  int64 update_at = 5;
+  // @inject_tag: json:"need_time"
+  int32 need_time = 6; //进入下一状态所需时长，0-表示不会变更
+  // @inject_tag: json:"poses"
+  repeated int32 poses = 7;
+  // @inject_tag: json:"planting"
+  Planting planting = 8; //农作物
+}
+
+message Seed {
+  // @inject_tag: json:"need_count"
+  int32 need_count = 1; //需要数量
+  // @inject_tag: json:"goods"
+  GoodsCount goods = 2; //种子数量
+}
+
+message Planting {
+  // @inject_tag: json:"goods_id"
+  int32 goods_id = 1;
+  // @inject_tag: json:"update_at"
+  int64 update_at = 2;
+  // @inject_tag: json:"stage_time"
+  int32 stage_time = 3;
+  // @inject_tag: json:"stage"
+  PlantStage stage = 4;
+  // @inject_tag: json:"operate"
+  PlantOperate operate = 5;
+}
+
+enum PlantStage {
+  zero = 0;
+  One = 1;
+  Two = 2;
+  Three = 3;
+}
+
+enum PlantOperate {
+  None = 0;    //无操作
+  Harvest = 1; //收割（庄稼）
+}

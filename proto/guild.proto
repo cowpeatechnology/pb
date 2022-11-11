@@ -1,0 +1,702 @@
+syntax = "proto3";
+import "pb/proto/common.proto";
+
+package pb;
+option go_package = "/pb;pb";
+
+message GuildReq {
+  oneof req {
+    GetGuildReq get_guild_req = 1;                    //请求王国信息
+    GuildMemberReq guild_member_req = 2;              //请求成员列表
+    SetAuthorityReq set_authority_req = 3;            //请求修改成员职位
+    DismissMemberReq dismiss_member_req = 4;          //请求踢出成员
+    ApplyGuildReq apply_guild_req = 5;                //王国申请
+    GuildAppliesReq guild_applies_req = 6;            //请求王国申请列表
+    ConfirmApplyReq confirm_apply_req = 7;            //确认申请
+    AddGuildPersonReq add_guild_person_req = 8;       //设置职员到王国
+    RemoveGuildPersonReq remove_guild_person_req = 9; //从王国取出职员
+    PlayerGuildPersonsReq player_guild_persons_req = 10; //请求王国个人职员列表
+    GuildPersonsReq guild_persons_req = 11; //请求王国职员列表
+    ChangeHeadReq change_head_req = 12;     //更换会长
+    ExitGuildReq exit_guild_req = 13;       //退出王国
+    SearchGuildReq search_guild_req = 14;   //搜索王国
+    CreateGuildReq create_guild_req = 15;   //创建王国
+    JoinGuildReq join_guild_req = 16;       //加入王国
+    GetsRelationGuildReq gets_relation_guild_req = 17;   //搜索外交王国
+    DisbandGuildReq disband_guild_req = 18;              //解散王国
+    ChangeGuildNameReq change_guild_name_req = 19;       //修改王国名称
+    ChangeGuildIconReq change_guild_icon_req = 20;       //修改王国图标
+    ChangeGuildContentReq change_guild_content_req = 21; //修改王国公告
+    SetGuildApplyLimitReq set_guild_apply_limit_req = 22; //设置王国招募限制
+    GetsArmyReq gets_army_req = 23;                       //获取部队列表
+    GetArmyReq get_army_req = 24;                         //获取部队
+    CreateArmyReq create_army_req = 25;                   //创建部队
+    LoadCaptainReq load_captain_req = 26;              //上阵或替换队长
+    UnloadCaptainReq unload_captain_req = 27;          //下阵队长
+    LoadArmyDeviceReq load_army_device_req = 28;       //装配或替换装备
+    UnloadArmyDeviceReq unload_army_device_req = 29;   //脱下装备
+    RecruitSoldiersReq recruit_soldiers_req = 30;      //征兵
+    DismissArmyReq dismiss_army_req = 31;              //解散部队
+    ExitGuildUiReq exit_guild_ui_req = 32;             // 离开王国界面
+    GetsHistoryCombatReq gets_history_combat_req = 33; //获取历史战斗
+    GetTradeTeamReq get_trade_team_req = 34;           //获取贸易队
+    LoadTradeTeamPersonReq load_trade_team_person_req = 35; //装载贸易队族人
+    UnloadTradeTeamPersonReq unload_trade_team_person_req = 36; //装载贸易队族人
+    MaintainVehicleReq maintain_vehicle_req = 37;               //维修载具
+    UpgradeVehicleReq upgrade_vehicle_req = 38;                 //升级载具
+
+    UpdateArmyTypeReq update_army_type_req = 39;                   //修改部队兵种
+  }
+}
+
+message GuildRes {
+  oneof res {
+    GetGuildRes get_guild_res = 1;                    //请求王国信息
+    GuildMemberRes guild_member_res = 2;              //请求成员列表
+    SetAuthorityRes set_authority_res = 3;            //请求修改成员职位
+    DismissMemberRes dismiss_member_res = 4;          //请求踢出成员
+    ApplyGuildRes apply_guild_res = 5;                //王国申请
+    GuildAppliesRes guild_applies_res = 6;            //请求王国申请列表
+    ConfirmApplyRes confirm_apply_res = 7;            //申请确认
+    AddGuildPersonRes add_guild_person_res = 8;       //设置职员到王国
+    RemoveGuildPersonRes remove_guild_person_res = 9; //从王国取出职员
+    PlayerGuildPersonsRes player_guild_persons_res = 10; //请求王国个人职员列表
+    GuildPersonsRes guild_persons_res = 11; //请求王国职员列表
+    ChangeHeadRes change_head_res = 12;     //更换会长
+    ExitGuildRes exit_guild_res = 13;       //退出王国
+    SearchGuildRes search_guild_res = 14;   //搜索王国
+    CreateGuildRes create_guild_res = 15;   //创建王国
+    JoinGuildRes join_guild_res = 16;       //加入王国
+    GetsRelationGuildRes gets_relation_guild_res = 17;   //搜索王国外交
+    DisbandGuildRes disband_guild_res = 18;              //解散王国
+    ChangeGuildNameRes change_guild_name_res = 19;       //修改王国名称
+    ChangeGuildIconRes change_guild_icon_res = 20;       //修改王国图标
+    ChangeGuildContentRes change_guild_content_res = 21; //修改王国公告
+    SetGuildApplyLimitRes set_guild_apply_limit_res = 22; //设置王国招募限制
+    GetsArmyRes gets_army_res = 23;                       //获取部队列表
+    GetArmyRes get_army_res = 24;                         //获取部队
+    CreateArmyRes create_army_res = 25;                   //创建部队
+    LoadCaptainRes load_captain_res = 26;              //上阵或替换队长
+    UnloadCaptainRes unload_captain_res = 27;          //下阵队长
+    LoadArmyDeviceRes load_army_device_res = 28;       //装配或替换装备
+    UnloadArmyDeviceRes unload_army_device_res = 29;   //脱下装备
+    RecruitSoldiersRes recruit_soldiers_res = 30;      //征兵
+    DismissArmyRes dismiss_army_res = 31;              //解散部队
+    ExitGuildUiRes exit_guild_ui_res = 32;             // 离开王国界面
+    GetsHistoryCombatRes gets_history_combat_res = 33; //获取历史战斗
+    GetTradeTeamRes get_trade_team_res = 34;           //获取贸易队
+    LoadTradeTeamPersonRes load_trade_team_person_res = 35; //装载贸易队族人
+    UnloadTradeTeamPersonRes unload_trade_team_person_res = 36; //装载贸易队族人
+    MaintainVehicleRes maintain_vehicle_res = 37;               //维修载具
+    UpgradeVehicleRes upgrade_vehicle_res = 38;                 //升级载具
+    CombatStatusNotify combat_status_notify = 100; //战斗状态通知
+
+
+    UpdateArmyTypeRes update_army_type_res = 39;                   //修改部队兵种
+  }
+}
+
+//----------------------------------------------------------------
+message GetGuildReq {}
+
+message GuildMemberReq {
+  // @inject_tag: json:"guild_id"
+  int32 guild_id = 1; //王国ID
+  // @inject_tag: json:"page"
+  int32 page = 2; //页码，第一页为0
+}
+
+//请求修改成员职位
+message SetAuthorityReq {
+  // @inject_tag: json:"player_id"
+  int64 player_id = 1;
+  // @inject_tag: json:"authority"
+  Authority authority = 2;
+}
+
+//请求踢出成员
+message DismissMemberReq {
+  // @inject_tag: json:"player_id"
+  int64 player_id = 1;
+}
+
+message ApplyGuildReq {
+  // @inject_tag: json:"guild_id"
+  int32 guild_id = 1;
+  // @inject_tag: json:"apply_type"
+  ApplyType apply_type = 2;
+}
+
+//请求王国申请列表
+message GuildAppliesReq {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+}
+
+message ConfirmApplyReq {
+  // @inject_tag: json:"apply_id"
+  int64 apply_id = 1;
+  // @inject_tag: json:"agree"
+  bool agree = 2;
+}
+
+message AddGuildPersonReq {
+  // @inject_tag: json:"person_id"
+  int32 person_id = 1;
+}
+
+message RemoveGuildPersonReq {
+  // @inject_tag: json:"person_id"
+  int32 person_id = 1;
+}
+
+//请求王国个人职员列表
+message PlayerGuildPersonsReq {
+  // @inject_tag: json:"person_id"
+  int64 player_id = 1;
+}
+
+//请求王国职员列表
+message GuildPersonsReq {}
+
+message ChangeHeadReq {
+  // @inject_tag: json:"player_id"
+  int64 player_id = 1;
+}
+
+message ExitGuildReq {}
+
+message SearchGuildReq {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"key"
+  string key = 3;
+}
+
+message GetsRelationGuildReq {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"all"
+  bool all = 3;
+  // @inject_tag: json:"relation"
+  repeated GuildRelation relation = 4;
+}
+
+message CreateGuildReq {
+  // @inject_tag: json:"pos"
+  int32 pos = 1;
+  // @inject_tag: json:"name"
+  string name = 2;
+}
+
+message JoinGuildReq {
+  // @inject_tag: json:"guild_id"
+  int32 guild_id = 1;
+}
+
+//解散王国
+message DisbandGuildReq {}
+
+message ChangeGuildNameReq {
+  // @inject_tag: json:"name"
+  string name = 1; //名称
+}
+
+message ChangeGuildIconReq {
+  // @inject_tag: json:"icon"
+  int32 icon = 1; //标志
+}
+
+message ChangeGuildContentReq {
+  //@inject_tag: json:"content"
+  string content = 1; //公告
+}
+
+message SetGuildApplyLimitReq {
+  // @inject_tag: json:"combat"
+  int32 combat = 1; //战功限制
+  // @inject_tag: json:"trade"
+  int32 trade = 2; //贸易值限制
+}
+
+message GetsArmyReq {}
+
+message GetArmyReq {
+  // @inject_tag: json:"army_id"
+  int64 army_id = 1;
+}
+
+message CreateArmyReq {
+  // @inject_tag: json:"name"
+  string name = 1; // 部队名称
+  int64 person_id = 2; // 主将
+  ArmyType  army_type = 3;//1	骑兵 	2	剑兵 	3	枪兵 	4	弓兵
+}
+
+message LoadCaptainReq {
+  int64 army_id = 1; //部队ID
+  // @inject_tag: json:"pos"
+  int32 pos = 2; //加载位置（1，2，3）
+  // @inject_tag: json:"person_id"
+  int64 person_id = 3;
+}
+
+message UnloadCaptainReq {
+  int64 army_id = 1; //部队ID
+  int32 pos = 2;//卸载位置（1，2，3）
+}
+
+message LoadArmyDeviceReq {
+  int64 army_id = 1;
+  int32 unit_pos = 2;//位置（1，2，3）
+  int32 device_pos = 3;
+  int64 player_goods_id = 4;
+}
+
+message UnloadArmyDeviceReq {
+  int64 army_id = 1;
+  int32 unit_pos = 2;//位置（1，2，3）
+  int32 device_pos = 3;
+}
+
+message RecruitSoldiersReq {
+  int64 army_id = 1;
+  int32 unit_pos = 2;//位置（1，2，3）
+  int32 soldier_count = 3;
+}
+
+message DismissArmyReq {
+  // @inject_tag: json:"army_id"
+  int64 army_id = 1;
+}
+
+message ExitGuildUiReq {}
+
+message GetsHistoryCombatReq {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+}
+
+message GetTradeTeamReq {}
+
+message LoadTradeTeamPersonReq {
+  // @inject_tag: json:"person"
+  FightPerson person = 1; //队伍中的族人
+}
+
+message UnloadTradeTeamPersonReq {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1; //队伍中的族人
+}
+
+message MaintainVehicleReq {}
+
+message UpgradeVehicleReq {}
+
+message UpdateArmyTypeReq{
+  int64 army_id = 1; //部队ID
+
+  ArmyType  army_type = 2;//1	骑兵 	2	剑兵 	3	枪兵 	4	弓兵
+}
+
+//----------------------------------------------------------------
+message GetGuildRes {
+  oneof res {
+    GuildHomePage home_page = 1;
+    Guilds recommend = 2;
+  }
+}
+
+message GuildMemberRes {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"members"
+  repeated GuildMember members = 2;
+}
+
+//请求修改成员职位
+message SetAuthorityRes {
+  enum Result {
+    Success = 0;     //成功
+    MysqlErr = 1;    //数据库异常
+    NoAuthority = 2; //权限不够
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+//请求踢出成员
+message DismissMemberRes {
+  enum Result {
+    Success = 0;     //成功
+    NoGuild = 1;     //不在任何王国中
+    NotInGuild = 2;  //不在当前王国中
+    NoAuthority = 3; //权限不够
+    MysqlErr = 4;    //数据库异常
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message ApplyGuildRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"apply_type"
+  ApplyType apply_type = 2;
+}
+
+//请求王国申请列表
+message GuildAppliesRes {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"total"
+  int32 total = 3;
+  // @inject_tag: json:"players"
+  repeated GuildApplyInfo players = 4;
+}
+
+message ConfirmApplyRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+//设置职员到王国
+message AddGuildPersonRes {
+  enum Result {
+    Success = 0; //成功
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+//从王国取出职员
+message RemoveGuildPersonRes {
+  enum Result {
+    Success = 0; //成功
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+//请求王国个人职员列表
+message PlayerGuildPersonsRes {
+  // @inject_tag: json:"persons"
+  repeated GuildPerson persons = 1;
+}
+
+//请求王国职员列表
+message GuildPersonsRes {
+  // @inject_tag: json:"persons"
+  repeated GuildPerson persons = 1;
+}
+
+message ChangeHeadRes {
+  enum Result {
+    Success = 0;      //成功
+    NotPresident = 1; //非会长
+    MysqlErr = 2;     //数据库异常
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message ExitGuildRes {
+  enum Result {
+    Success = 0;   //成功
+    President = 1; //会长不能退出
+    MysqlErr = 2;  //数据库异常
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message SearchGuildRes {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"key"
+  string key = 3;
+  // @inject_tag: json:"total"
+  int64 total = 4;
+  // @inject_tag: json:"guilds"
+  repeated Guild guilds = 5;
+}
+
+message GetsRelationGuildRes {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"all"
+  bool all = 3;
+  // @inject_tag: json:"relation"
+  repeated GuildRelation relation = 4;
+  // @inject_tag: json:"total"
+  int64 total = 5;
+  // @inject_tag: json:"guilds"
+  repeated RelationGuild guilds = 6;
+}
+
+message CreateGuildRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"home_page"
+  GuildHomePage home_page = 2;
+}
+
+message JoinGuildRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+//解散王国
+message DisbandGuildRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message ChangeGuildNameRes {
+  enum Result {
+    Success = 0;  //成功
+    MysqlErr = 1; //数据库异常
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message ChangeGuildIconRes {
+  enum Result {
+    Success = 0;  //成功
+    MysqlErr = 1; //数据库异常
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message ChangeGuildContentRes {
+  enum Result {
+    Success = 0;  //成功
+    MysqlErr = 1; //数据库异常
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message SetGuildApplyLimitRes {
+  enum Result {
+    Success = 0;  //成功
+    MysqlErr = 1; //数据库异常
+  }
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message GetsArmyRes {
+  // @inject_tag: json:"armies"
+  repeated Army armies = 1;
+}
+
+message GetArmyRes {
+  // @inject_tag: json:"army"
+  Army army = 1;
+  // @inject_tag: json:"units"
+  repeated ArmyUnit units = 2;
+}
+
+message CreateArmyRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"army"
+  Army army = 2;
+  // @inject_tag: json:"units"
+  repeated ArmyUnit units = 3;
+}
+
+message LoadCaptainRes {
+  Result result = 1;
+  ArmyUnit unit = 2;
+}
+
+message UnloadCaptainRes {
+  Result result = 1;
+  int64 army_id = 2; //部队ID
+  int32 pos = 3; //加载位置（1，2，3）
+}
+
+message LoadArmyDeviceRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"unit"
+  ArmyUnit unit = 2;
+}
+
+message UnloadArmyDeviceRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"unit"
+  ArmyUnit unit = 2;
+}
+
+message RecruitSoldiersRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"unit"
+  ArmyUnit unit = 2;
+  Army army = 3;
+}
+
+message DismissArmyRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+message ExitGuildUiRes {}
+
+message CombatStatusNotify {
+  // @inject_tag: json:"combat"
+  GuildCombat combat = 1;
+}
+
+message GetsHistoryCombatRes {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"total"
+  int32 total = 3;
+  // @inject_tag: json:"combats"
+  repeated GuildCombat combats = 4; //战斗信息
+}
+
+message GetTradeTeamRes {
+  // @inject_tag: json:"trade_team"
+  TradeTeam trade_team = 1; //贸易队
+  // @inject_tag: json:"team_status"
+  TradeTeamStatus team_status = 2; //贸易队状态
+}
+
+message LoadTradeTeamPersonRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"trade_team"
+  TradeTeam trade_team = 2; //贸易队
+}
+
+message UnloadTradeTeamPersonRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"trade_team"
+  TradeTeam trade_team = 2; //贸易队
+}
+
+message MaintainVehicleRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"trade_team"
+  TradeTeam trade_team = 2; //贸易队
+  // @inject_tag: json:"money"
+  Money money = 3;
+}
+
+message UpgradeVehicleRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"trade_team"
+  TradeTeam trade_team = 2; //贸易队
+  // @inject_tag: json:"money"
+  Money money = 3;
+}
+
+message UpdateArmyTypeRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"army"
+  Army army = 2;
+}
+//----------------------------------------------------------------
+enum ApplyType {
+  Join = 0;       //加入
+  Alliance = 1;   //结盟
+  Peace = 2;      //和平
+  DeclareWar = 3; //宣战
+  Break = 4;      //破弃
+}
+
+enum GuildRelation {
+  NoRelation = 0;   //未建立关系
+  ToAlliance = 1;   //建立联盟中
+  RAlliance = 2;    //结盟
+  ToPeace = 3;      //建立和平中
+  RPeace = 4;       //和平
+  ToWar = 5;        //建立宣战中
+  RWar = 6;         //宣战
+  ToNoRelation = 7; //放弃关系
+}
+
+message RelationGuild {
+  // @inject_tag: json:"guild"
+  Guild guild = 1;
+  // @inject_tag: json:"relation"
+  GuildRelation relation = 2; //关系
+}
+
+//王国主页
+message GuildHomePage {
+  // @inject_tag: json:"guild"
+  Guild guild = 1;
+  // @inject_tag: json:"home"
+  Build home = 2; //主城
+  // @inject_tag: json:"president"
+  BasePlayer president = 3; //会长
+  // @inject_tag: json:"combats"
+  repeated GuildCombat combats = 4; //战斗信息
+}
+
+message GuildApplyInfo {
+  // @inject_tag: json:"apply_type"
+  ApplyType apply_type = 1;
+  // @inject_tag: json:"apply_id"
+  int64 apply_id = 2;
+  // @inject_tag: json:"name"
+  string name = 3;
+  // @inject_tag: json:"apply_time"
+  int64 apply_time = 4; //申请时间
+}
+
+//推荐王国集合
+message Guilds {
+  // @inject_tag: json:"total"
+  int32 total = 1;
+  // @inject_tag: json:"page"
+  int32 page = 2;
+  // @inject_tag: json:"guilds"
+  repeated Guild guilds = 3;
+}
+
+//王国职员列表详情
+message GuildPerson {
+  // @inject_tag: json:"person_id"
+  int32 person_id = 1;
+  // @inject_tag: json:"person_name"
+  string person_name = 2;
+  // @inject_tag: json:"person_gender"
+  int32 person_gender = 3;
+  // @inject_tag: json:"person_model"
+  string person_model = 4;
+  // @inject_tag: json:"location"
+  string location = 5;
+  // @inject_tag: json:"doing"
+  string doing = 6;
+  // @inject_tag: json:"member"
+  GuildMember member = 7;
+}

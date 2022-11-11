@@ -1,0 +1,467 @@
+syntax = "proto3";
+import "pb/proto/common.proto";
+
+package pb;
+option go_package = "/pb;pb";
+
+message PlayerReq {
+  oneof req {
+    CreatePlayerReq create_player_req = 1;             //创建角色
+    GetPlayerReq get_player_req = 2;                   //获取角色
+    ChangeAvatarReq change_avatar_req = 3;             //修改头像
+    ChangeNameReq change_name_req = 4;                 //修改名称
+    ChatAllReq chat_all_req = 5;                       //世界聊天
+    GuildChatReq guild_chat_req = 6;                   //王国聊天
+    ChatPlayerReq chat_player_req = 7;                 //指定用户聊天
+    PurchaseReq purchase_req = 8;                      //购买商品
+    PurchaseGiftReq purchase_gift_req = 9;             //购买礼包
+    GetsPlayerGoodsReq gets_player_goods_req = 10;     //获取玩家物品
+    RecycleReq recycle_req = 11;                       //系统回收
+    GetsPlayerSoulReq gets_player_soul_req = 12;       //获取族人契约
+    GetsChapterBattleReq gets_chapter_battle_req = 13; //根据章节获取战役
+    GetBattleInfoReq get_battle_info_req = 14;         //获取战役详情
+    GetDeviceInfoReq get_device_info_req = 15;         //获取装备详情
+    GetDeviceUpgradeReq get_device_upgrade_req = 16;   //获取装备升级详情
+    UpgradeDeviceReq upgrade_device_req = 17;          //升级装备
+    ResetDeviceReq reset_device_req = 18;              //重置装备
+    GetResetDeviceReq get_reset_device_req = 19;       //获取重置装备信息
+    DrawSoulReq draw_soul_req = 20;                    //抽取契约
+    GetsPlayerDeviceReq gets_player_device_req = 21;   //获取玩家装备
+  }
+}
+
+message PlayerRes {
+  oneof res {
+    CreatePlayerRes create_player_res = 1;             //创建角色
+    GetPlayerRes get_player_res = 2;                   //获取角色
+    ChangeAvatarRes change_avatar_res = 3;             //修改头像响应
+    ChangeNameRes change_name_res = 4;                 //修改名称
+    ChatAllRes chat_all_res = 5;                       //世界聊天
+    GuildChatRes guild_chat_res = 6;                   //王国聊天
+    ChatPlayerRes chat_player_res = 7;                 //指定用户聊天
+    PurchaseRes purchase_res = 8;                      //购买商品
+    PurchaseGiftRes purchase_gift_res = 9;             //购买礼包
+    GetsPlayerGoodsRes gets_player_goods_res = 10;     //获取玩家物品
+    RecycleRes recycle_res = 11;                       //系统回收
+    GetsPlayerSoulRes gets_player_soul_res = 12;       //获取族人契约
+    GetsChapterBattleRes gets_chapter_battle_res = 13; //根据章节获取战役
+    GetBattleInfoRes get_battle_info_res = 14;         //获取战役详情
+    GetDeviceInfoRes get_device_info_res = 15;         //获取装备详情
+    GetDeviceUpgradeRes get_device_upgrade_res = 16;   //获取装备升级详情
+    UpgradeDeviceRes upgrade_device_res = 17;          //升级装备
+    ResetDeviceRes reset_device_res = 18;              //重置装备
+    GetResetDeviceRes get_reset_device_res = 19;       //获取重置装备信息
+    DrawSoulRes draw_soul_res = 20;                    //抽取契约
+    GetsPlayerDeviceRes gets_playerDeviceRes = 21;     //获取玩家装备
+    MoneyChangeNotify money_change_notify = 100;       //货币变更通知
+    KickOffNotify kick_off_notify = 101;               //账号被踢通知
+  }
+}
+
+////////////////////////////////////
+message CreatePlayerReq {
+  // @inject_tag: json:"name"
+  string name = 1; //姓名
+  // @inject_tag: json:"gender"
+  Gender gender = 2; //性别
+  // @inject_tag: json:"avatar_id"
+  int32 avatar_id = 3; //头像
+}
+
+message GetPlayerReq {}
+
+message ChangeAvatarReq {
+  // @inject_tag: json:"avatar_id"
+  int32 avatar_id = 1;
+}
+
+message ChangeNameReq {
+  // @inject_tag: json:"name"
+  string name = 1;
+}
+
+message ChatAllReq {
+  // @inject_tag: json:"msg"
+  string msg = 1;
+}
+
+message GuildChatReq {
+  // @inject_tag: json:"guild_id"
+  int32 guild_id = 1; //王国ID
+  // @inject_tag: json:"msg"
+  string msg = 2;
+}
+
+message ChatPlayerReq {
+  // @inject_tag: json:"receiver_id"
+  int64 receiver_id = 1; //接收者Id
+  // @inject_tag: json:"msg"
+  string msg = 2;
+}
+
+message PurchaseReq {
+  // @inject_tag: json:"commodity_id"
+  int32 commodity_id = 1; //商品ID
+  // @inject_tag: json:"count"
+  int32 count = 2;
+}
+
+message PurchaseGiftReq {
+  // @inject_tag: json:"gift_id"
+  int32 gift_id = 1; //商品ID
+}
+
+message GetsPlayerGoodsReq {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  //物品分类:0-全部,1-装备，2-工具，3-消耗品
+  // @inject_tag: json:"type"
+  int32 type = 3;
+  // @inject_tag: json:"sub_type"
+  int32 sub_type = 4;
+  // @inject_tag: json:"subdivide"
+  int32 subdivide = 5;
+  // @inject_tag: json:"unload"
+  bool unload = 6; // 是否未装载，仅装备有效
+  // @inject_tag: json:"person_level"
+  int32 person_level = 7; //装载族人等级
+}
+
+message RecycleReq {
+  // @inject_tag: json:"player_goods_id"
+  int64 player_goods_id = 1;
+  // @inject_tag: json:"count"
+  int32 count = 2;
+}
+
+message GetsPlayerSoulReq {
+  // @inject_tag: json:"quality"
+  int32 quality = 1; //品质 （0-全部，1-普通，2-稀有，3-史诗，4-传说）
+  // @inject_tag: json:"sub_device_type"
+  int32 sub_device_type = 2; //适用的武器
+}
+
+message GetsChapterBattleReq {
+  // @inject_tag: json:"chapter_id"
+  int32 chapter_id = 1;
+}
+
+message GetBattleInfoReq {
+  // @inject_tag: json:"battle_id"
+  int32 battle_id = 1;
+}
+
+message GetDeviceInfoReq {
+  // @inject_tag: json:"player_goods_id"
+  int64 player_goods_id = 1; //玩家物品ID，非物品ID
+}
+
+message GetDeviceUpgradeReq {
+  // @inject_tag: json:"player_goods_id"
+  int64 player_goods_id = 1; //玩家物品ID，非物品ID
+}
+
+message UpgradeDeviceReq {
+  // @inject_tag: json:"player_goods_id"
+  int64 player_goods_id = 1; //玩家物品ID
+}
+
+message ResetDeviceReq {
+  // @inject_tag: json:"player_goods_id"
+  int64 player_goods_id = 1; //玩家物品ID，非物品ID
+}
+
+message GetResetDeviceReq {
+  // @inject_tag: json:"player_goods_id"
+  int64 player_goods_id = 1; //玩家物品ID，非物品ID
+}
+
+message DrawSoulReq {
+  // @inject_tag: json:"quality"
+  int32 quality = 1; // 1-勇气，2-希望，3-奇迹
+  // @inject_tag: json:"count"
+  int32 count = 2; // 1抽或10连抽
+}
+
+message GetsPlayerDeviceReq{
+  // @inject_tag: json:"page"
+  int32 page = 1;     // 当前页数
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2; // 每页数量
+  // @inject_tag: json:"type"
+  int32 type = 3;     // 0-全部,1-头部装备,2-胸部装备,3-手部装备,4-腿部装备,5-武器装备,6-饰品装备,7-挂件装备
+  // @inject_tag: json:"unload"
+  bool unload = 4;    // true-未装载,false-全部
+}
+
+////////////////////////////////////
+message CreatePlayerRes {
+  // @inject_tag: json:"result"
+  Result result = 1; // 0-成功
+}
+
+message GetPlayerRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"player"
+  BasePlayer player = 2;
+  // @inject_tag: json:"moneys"
+  repeated Money moneys = 3;
+  // @inject_tag: json:"server_group"
+  string server_group = 4;
+  // @inject_tag: json:"guild_group"
+  string guild_group = 5;
+  // @inject_tag: json:"guild_id"
+  int32 guild_id = 6;
+}
+
+message ChangeAvatarRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message ChangeNameRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message ChatAllRes {
+  // @inject_tag: json:"chat"
+  Chat chat = 1;
+}
+
+message GuildChatRes {
+  // @inject_tag: json:"guild_id"
+  int32 guild_id = 1; //王国ID
+  // @inject_tag: json:"chat"
+  Chat chat = 2;
+}
+
+message ChatPlayerRes {
+  // @inject_tag: json:"chat"
+  Chat chat = 1;
+}
+
+message PurchaseRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"commodity_id"
+  int32 commodity_id = 2; //商品ID
+  // @inject_tag: json:"count"
+  int32 count = 3;
+  // @inject_tag: json:"money_type"
+  int32 money_type = 4;
+  // @inject_tag: json:"Price"
+  int32 Price = 5;
+}
+
+message PurchaseGiftRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"gift_id"
+  int32 gift_id = 2; //礼包ID
+  // @inject_tag: json:"money_type"
+  int32 money_type = 3;
+  // @inject_tag: json:"Price"
+  int32 Price = 4;
+}
+
+message GetsPlayerGoodsRes {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"total"
+  int32 total = 3;
+  // @inject_tag: json:"type"
+  int32 type = 4;
+  // @inject_tag: json:"sub_type"
+  int32 sub_type = 5;
+  // @inject_tag: json:"subdivide"
+  int32 subdivide = 6;
+  // @inject_tag: json:"unload"
+  bool unload = 7; // 是否未装载，仅装备有效
+  // @inject_tag: json:"person_level"
+  int32 person_level = 8; //装载族人等级
+  // @inject_tag: json:"goods"
+  repeated PlayerGoods goods = 9;
+}
+
+message RecycleRes {
+  // @inject_tag: json:"goods_id"
+  int32 goods_id = 1;
+  // @inject_tag: json:"count"
+  int32 count = 2;
+  // @inject_tag: json:"money_type"
+  int32 money_type = 3;
+  // @inject_tag: json:"price"
+  int32 price = 4;
+}
+
+message GetsPlayerSoulRes {
+  // @inject_tag: json:"quality"
+  int32 quality = 1; //品质 （0-全部，1-普通，2-稀有，3-史诗，4-传说）
+  // @inject_tag: json:"sub_device_type"
+  int32 sub_device_type = 2; //适用的武器
+  // @inject_tag: json:"souls"
+  repeated PlayerSoul souls = 3;
+}
+
+message MoneyChangeNotify {
+  // @inject_tag: json:"money"
+  Money money = 1; //当前货币量
+}
+
+message GetsChapterBattleRes {
+  // @inject_tag: json:"battles"
+  repeated Battle battles = 1;
+}
+
+message GetBattleInfoRes {
+  // @inject_tag: json:"battle_id"
+  int32 battle_id = 1; //关卡id
+  // @inject_tag: json:"fighting"
+  int32 fighting = 2; //推荐战力
+  // @inject_tag: json:"defenses"
+  repeated FightPersonInfo defenses = 3; //防守阵容
+  // @inject_tag: json:"victory"
+  repeated Reward victory = 4; // 胜利奖品
+  // @inject_tag: json:"defeat"
+  repeated Reward defeat = 5; // 失败奖品
+}
+
+message GetDeviceInfoRes {
+  // @inject_tag: json:"player_goods_id"
+  int64 player_goods_id = 1; //玩家物品ID，非物品ID
+  // @inject_tag: json:"device"
+  PlayerDevice device = 2; //装备
+}
+
+message GetDeviceUpgradeRes {
+  // @inject_tag: json:"player_goods_id"
+  int64 player_goods_id = 1; //玩家物品ID，非物品ID
+  // @inject_tag: json:"level"
+  int32 level = 2; //升级后的等级
+  // @inject_tag: json:"need_goods"
+  repeated NeedGoods need_goods = 3; //升级所需物品
+  // @inject_tag: json:"device"
+  PlayerDevice device = 4; //物品属性
+}
+
+message UpgradeDeviceRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"player_goods_id"
+  int64 player_goods_id = 2; //玩家物品ID
+  // @inject_tag: json:"level"
+  int32 level = 3;           //升级后的等级
+  // @inject_tag: json:"device"
+  PlayerDevice device = 4;   //装备属性
+}
+
+message ResetDeviceRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"player_goods_id"
+  int64 player_goods_id = 2; //玩家物品ID，非物品ID
+  // @inject_tag: json:"level"
+  int32 level = 3; //升级后的等级
+  // @inject_tag: json:"device"
+  PlayerDevice device = 4; //物品属性
+  // @inject_tag: json:"return_goods"
+  repeated NeedGoods return_goods = 5; //返回物品
+}
+
+message GetResetDeviceRes {
+  // @inject_tag: json:"player_goods_id"
+  int64 player_goods_id = 1; //玩家物品ID，非物品ID
+  // @inject_tag: json:"level"
+  int32 level = 2; //升级后的等级
+  // @inject_tag: json:"device"
+  PlayerDevice device = 3; //物品属性
+  // @inject_tag: json:"return_goods"
+  repeated NeedGoods return_goods = 4; //返回物品
+}
+
+message DrawSoulRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"quality"
+  int32 quality = 2; // 1-勇气，2-希望，3-奇迹
+  // @inject_tag: json:"soul_ids"
+  repeated int32 soul_ids = 3; //抽取结果
+  // @inject_tag: json:"money"
+  Money money = 4; //消耗的money
+}
+
+message GetsPlayerDeviceRes{
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"total"
+  int32 total = 3;
+  // @inject_tag: json:"type"
+  int32 type = 4;
+  // @inject_tag: json:"devices"
+  repeated PlayerDeviceInfo devices = 5;
+}
+
+message KickOffNotify {
+  // @inject_tag: json:"reason"
+  int32 reason = 1; //原因 0-其他地方登陆
+}
+
+////////////////////////////////////
+message Chat {
+  // @inject_tag: json:"sender_id"
+  int64 sender_id = 1; //发送者Id
+  // @inject_tag: json:"sender_name"
+  string sender_name = 2; //发送者名称
+  // @inject_tag: json:"msg"
+  string msg = 3;
+}
+
+message Battle {
+  // @inject_tag: json:"id"
+  int32 id = 1; //关卡id
+  // @inject_tag: json:"chapter_id"
+  int32 chapter_id = 2; //章节id
+  // @inject_tag: json:"name"
+  string name = 3; //关卡名称
+  // @inject_tag: json:"desc"
+  string desc = 4;
+  // @inject_tag: json:"status"
+  int32 status = 5; //战斗结果(0-未战斗，1-胜利，2-失败)
+}
+
+message PlayerDeviceInfo {
+  PlayerGoods goods = 1;
+  PlayerDevice device = 2;
+}
+
+message PlayerDevice {
+  // @inject_tag: json:"load_id"
+  int64 load_id = 1; //0-未装备,有值-装载的族人
+  // @inject_tag: json:"sub_device_type"
+  int32 sub_device_type = 2; //装备子类型,用于区分武器
+  // @inject_tag: json:"properties"
+  map<int32, float> properties = 3; //属性
+  // @inject_tag: json:"words"
+  map<int32, Word> words = 4; //词条
+  // @inject_tag: json:"growth_rate"
+  float growth_rate = 5; //成长率
+}
+
+message NeedGoods {
+  // @inject_tag: json:"type"
+  int32 type = 1; // 0-货币，1-物品
+  // @inject_tag: json:"goods_id"
+  int32 goods_id = 2; //物品ID
+  // @inject_tag: json:"goods_id"
+  int32 need_count = 3; //需要数量
+  // @inject_tag: json:"has_count"
+  int32 has_count = 4; //拥有数量
+}

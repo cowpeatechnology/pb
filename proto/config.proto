@@ -1,0 +1,231 @@
+syntax = "proto3";
+import "pb/proto/common.proto";
+
+package pb;
+option go_package = "/pb;pb";
+
+message ConfigReq {
+  oneof req {
+    GetDischargeReq get_discharge_req = 1;    //获取充值信息
+    GetCommodityReq get_commodity_req = 2;    //获取商品
+    GetGiftReq get_gift_req = 3;              //获取礼包
+    GetsBuildConfReq gets_build_conf_req = 4; //获取建筑设施
+    GetsSoulReq gets_soul_req = 5;            //获取契约技能
+  }
+}
+
+message ConfigRes {
+  oneof res {
+    GetDischargeRes get_discharge_res = 1;    //获取充值信息
+    GetCommodityRes get_commodity_res = 2;    //获取商品
+    GetGiftRes get_gift_res = 3;              //获取礼包
+    GetsBuildConfRes gets_build_conf_res = 4; //获取建筑设施
+    GetsSoulRes gets_soul_res = 5;            //获取契约技能
+  }
+}
+
+////////////////////////////////////
+message GetDischargeReq {}
+
+message GetCommodityReq {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"shop_id"
+  int32 shop_id = 3; //商店ID(0-代表所有商店）
+  // @inject_tag: json:"type"
+  int32 type = 4; // 0-全部,1-物品,2-装备,3-特殊
+}
+
+message GetGiftReq {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"shop_id"
+  int32 shop_id = 3; //商店ID(0-代表所有商店）
+}
+
+message GetsBuildConfReq {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"type"
+  int32 type = 3; // 0-全部,1-基础设施，2-农业设施，3-工业设施
+}
+
+message GetsSoulReq {
+  // @inject_tag: json:"soul_id"
+  int32 soul_id = 1;
+}
+////////////////////////////////////
+message GetDischargeRes {
+  // @inject_tag: json:"discharges"
+  repeated Discharge discharges = 1;
+}
+
+message GetCommodityRes {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"total"
+  int32 total = 3;
+  // @inject_tag: json:"shop_id"
+  int32 shop_id = 4; //商店ID(0-代表所有商店）
+  // @inject_tag: json:"type"
+  int32 type = 5; // 0-全部,1-装备，2-工具，3-消耗品，4-特殊
+  // @inject_tag: json:"commodities"
+  repeated Commodity commodities = 6;
+}
+
+message GetGiftRes {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"total"
+  int32 total = 3;
+  // @inject_tag: json:"gifts"
+  repeated Gift gifts = 4;
+}
+
+message GetsBuildConfRes {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"total"
+  int32 total = 3;
+  // @inject_tag: json:"type"
+  int32 type = 4; // 0-全部,1-基础设施，2-农业设施，3-工业设施
+  // @inject_tag: json:"build_configs"
+  repeated BuildConf build_configs = 5;
+}
+
+message GetsSoulRes {
+  // @inject_tag: json:"cd"
+  int32 cd = 1; //冷却回合
+  // @inject_tag: json:"energy"
+  int32 energy = 2; //能量消耗
+  // @inject_tag: json:"study_ratio"
+  int32 study_ratio = 3; //学习契约系数
+  // @inject_tag: json:"load_ratio"
+  int32 load_ratio = 4; //装载契约系数
+  // @inject_tag: json:"study_properties"
+  map<int32, int32> study_properties = 5; //学习属性加成
+  // @inject_tag: json:"load_properties"
+  map<int32, int32> load_properties = 6; //装载属性加成
+  // @inject_tag: json:"skills"
+  repeated SoulSkill skills = 7; //子技能
+}
+////////////////////////////////////
+message Discharge {
+  // @inject_tag: json:"id"
+  int32 id = 1;
+  // @inject_tag: json:"money"
+  int32 money = 2; //所需金额
+  // @inject_tag: json:"diamond"
+  int32 diamond = 3; //基础砖石
+  // @inject_tag: json:"present"
+  int32 present = 4; //赠送砖石
+  // @inject_tag: json:"first_present"
+  int32 first_present = 5; //首充赠送砖石 0-表示首充不赠送
+}
+
+message Commodity {
+  // @inject_tag: json:"id"
+  int32 id = 1; //商品ID
+  // @inject_tag: json:"shop_id"
+  int32 shop_id = 2; //商店ID(0-代表所有商店）
+  // @inject_tag: json:"money_type"
+  int32 money_type = 3; //货币类型 0-钻石，1-金币
+  // @inject_tag: json:"price"
+  int32 price = 4; //价格
+  // @inject_tag: json:"goods_count"
+  GoodsCount goods_count = 5; //物品数量
+}
+
+message Gift {
+  // @inject_tag: json:"id"
+  int32 id = 1; //商品ID
+  // @inject_tag: json:"name"
+  string name = 2; //名称
+  // @inject_tag: json:"type"
+  int32 type = 3; //类型（0-日礼包，1-周礼包，2-月礼包）
+  // @inject_tag: json:"shop_id"
+  int32 shop_id = 4; //商店ID(0-代表所有商店）
+  // @inject_tag: json:"tag"
+  int32 tag = 5; //标签（0-热卖，1-折扣等）
+  // @inject_tag: json:"purchase_limit"
+  int32 purchase_limit = 6; //物品ID
+  // @inject_tag: json:"money_type"
+  int32 money_type = 7; //货币类型 0-钻石，1-金币
+  // @inject_tag: json:"price"
+  int32 price = 8; //价格
+  // @inject_tag: json:"gift_goods"
+  repeated GoodsCount gift_goods = 9; //礼包物品
+}
+
+message BuildConf {
+  // @inject_tag: json:"id"
+  int32 id = 1; //物品ID
+  // @inject_tag: json:"name"
+  string name = 2; //名称
+  // @inject_tag: json:"level"
+  int32 level = 3; //等级
+  // @inject_tag: json:"has_count"
+  int32 has_count = 4; //拥有数量
+  // @inject_tag: json:"max_count"
+  int32 max_count = 5; //最大数量
+  // @inject_tag: json:"upgrade_time"
+  int32 upgrade_time = 6; //升级时长
+  // @inject_tag: json:"upgrade_goods"
+  repeated GoodsCount upgrade_goods = 7; //升级所需物品
+}
+
+message SoulSkill {
+  // @inject_tag: json:"soul_id"
+  int32 soul_id = 1; //契约ID
+  // @inject_tag: json:"skill_id"
+  int32 skill_id = 2; //技能ID
+  // @inject_tag: json:"sub_index"
+  int32 sub_index = 3; //技能下标
+  // @inject_tag: json:"name"
+  string name = 4; // 技能名称
+  // @inject_tag: json:"required"
+  int32 required = 5; //触发条件
+  // @inject_tag: json:"skill_type"
+  int32 skill_type = 7; //技能类型
+  // @inject_tag: json:"target"
+  int32 target = 8; //目标
+  // @inject_tag: json:"value"
+  int32 value = 9; //伤害或治疗值百分比（value + value*（level-1）/100）
+  // @inject_tag: json:"desc"
+  string desc = 10; //技能描述
+  // @inject_tag: json:"buff"
+  SKillBuff buff = 11; //附加效果
+}
+
+message SKillBuff {
+  // @inject_tag: json:"id"
+  int32 id = 1;
+  // @inject_tag: json:"name"
+  string name = 2; //名称
+  // @inject_tag: json:"self"
+  int32 self = 3; //是否施加给自己
+  // @inject_tag: json:"type"
+  int32 type = 4; //类型
+  // @inject_tag: json:"effect"
+  int32 effect = 5; //效果
+  // @inject_tag: json:"can_add"
+  int32 can_add = 6; //能否迭加
+  // @inject_tag: json:"continued"
+  int32 continued = 7; //持续回合
+  // @inject_tag: json:"value"
+  int32 value = 8; //增加或减少值
+  // @inject_tag: json:"desc"
+  string desc = 9; // 附加效果描述
+}

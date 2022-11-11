@@ -1,0 +1,632 @@
+syntax = "proto3";
+import "pb/proto/common.proto";
+
+package pb;
+option go_package = "/pb;pb";
+
+message LandReq {
+  oneof req {
+    EnterLandReq enter_land_req = 1;          //进入大陆
+    ExitLandReq exit_land_req = 2;            //离开大陆
+    ScanLandReq scan_land_req = 3;            //大陆
+    SetTradeDestReq set_trade_dest_req = 4;   //设置贸易目的城市
+    GotoTradeDestReq goto_trade_dest_req = 5; //出发去目的城市
+    DeclareWarReq declare_war_req = 6;        // 宣战
+    GotoWarReq goto_war_req = 7;              //出征
+    StopWarReq stop_war_req = 8;              //停战
+    PurchaseCargoReq purchase_cargo_req = 9;  //购入货物
+    SaleCargoReq sale_cargo_req = 10;         //售卖货物
+    GetsCityBankReq gets_city_bank_req = 11;  //获取城市银行
+    InvestReq invest_req = 12;                //投资
+    EscapeReq escape_req = 13;                //逃跑
+    GetsCityCommodityReq gets_city_commodity_req = 14; //获取城市商品
+    GetsCityPurchaseReq gets_city_purchase_req = 15;   //获取城市收购品
+    UnsetTradeDestReq unset_trade_dest_req = 16; //取消设置贸易目的城市
+    CreateLandBuildReq create_land_build_req = 17;   //建造建筑
+    UpgradeLandBuildReq upgrade_land_build_req = 18; //升级建筑
+    MergeLandBuildReq merge_land_build_req = 19;     //合并建筑
+    DeleteLandBuildReq delete_land_build_req = 20;   //拆除建筑
+    PlayerFightReportListReq player_fight_report_list_req = 21; //获取用户战报列表
+    PlayerFightReportByFightIdReq player_fight_report_by_fight_id_req = 22;  //获取单条用户战报内容
+  }
+}
+
+message LandRes {
+  oneof res {
+    EnterLandRes enter_land_res = 1;          //进入大陆
+    ExitLandRes exit_land_res = 2;            //离开大陆
+    ScanLandRes scan_land_res = 3;            //大陆
+    SetTradeDestRes set_trade_dest_res = 4;   //设置贸易目的城市
+    GotoTradeDestRes goto_trade_dest_res = 5; //出发去目的城市
+    DeclareWarRes declare_war_res = 6;        // 宣战
+    GotoWarRes goto_war_res = 7;              //出征
+    StopWarRes stop_war_res = 8;              //停战
+    PurchaseCargoRes purchase_cargo_res = 9;  //购入货物
+    SaleCargoRes sale_cargo_res = 10;         //售卖货物
+    GetsCityBankRes gets_city_bank_res = 11;  //获取城市银行
+    InvestRes invest_res = 12;                //投资
+    EscapeRes escape_res = 13;                //逃跑
+    GetsCityCommodityRes gets_city_commodity_res = 14; //获取城市商品
+    GetsCityPurchaseRes gets_city_purchase_res = 15;   //获取城市收购品
+    UnsetTradeDestRes unset_trade_dest_res = 16; //取消设置贸易目的城市
+    CreateLandBuildRes create_land_build_res = 17;   //建造建筑
+    UpgradeLandBuildRes upgrade_land_build_res = 18; //升级建筑
+    MergeLandBuildRes merge_land_build_res = 19;     //合并建筑
+    DeleteLandBuildRes delete_land_build_res = 20;   //拆除建筑
+    TradeTeamNotify trade_team_notify = 100;         //同步贸易队状态
+    GuildCombatNotify guild_combat_notify = 101;     //同步战争状态
+    ArmyArrivedNotify army_arrived_notify = 102;     // 部队到达通知
+    LandArmyNotify land_army_notify = 103;           //部队移动通知
+    ArmyStatusNotify army_status_notify = 104;       // 部队状态变更
+    TradeEventNotify trade_event_notify = 106;       //贸易事件通知
+    TradeTeamStatusNotify trade_team_status_notify = 107; //贸易队状态变更
+    VisibleBuildsNotify visible_builds_notify = 108; //可视区域的建筑
+    VisibleTradeTeamNotify visible_trade_team_notify = 109; //可视区域的贸易队
+    VisibleArmyNotify visible_army_notify = 110;     //可视区域的部队
+    VisibleCombatNotify visible_combat_notify = 111; //可视区域的战斗
+    GuildParcelNotify guild_parcel_notify = 112;     //王国势力范围
+    EnterOverNotify enter_over_notify = 113;         //进入结束通知
+    ScanOverNotify scan_over_notify = 114; //可以区域变更结束通知
+    LandBuildChangeNotify land_build_change_notify = 115; //大陆建筑变更通知
+    ParcelGuildNotify parcel_guild_notify = 116;          //通知地块势力
+    CombatStartOverNotify combat_start_over_notify = 120;        //战斗开始结束通知
+    CombatReportNotify combat_report_notify = 117;        //战报通知
+    PlayerFightReportListRes player_fight_report_list_res = 118;   //获取用户战报列表
+    PlayerFightReportByFightIdRes player_fight_report_by_fight_id_res = 119; //获取单条用户战报内容
+  }
+}
+
+//----------------------------------------------------
+message EnterLandReq {}
+
+message ExitLandReq {}
+
+message ScanLandReq {
+  // @inject_tag: json:"pos"
+  int32 pos = 1;
+}
+
+message SetTradeDestReq {
+  // @inject_tag: json:"build_id"
+  int32 build_id = 1; // 目的城市
+}
+
+message GotoTradeDestReq {}
+
+message DeclareWarReq {
+  // @inject_tag: json:"pos"
+  int32 pos = 1;
+}
+
+message GotoWarReq {
+  // @inject_tag: json:"army_id"
+  int64 army_id = 1;
+  // @inject_tag: json:"pos"
+  int32 pos = 2;
+}
+
+message StopWarReq {
+  // @inject_tag: json:"pos"
+  int32 pos = 1;
+}
+
+message PurchaseCargoReq {
+  // @inject_tag: json:"cargo"
+  Cargo cargo = 1;
+}
+
+message SaleCargoReq {
+  // @inject_tag: json:"cargo"
+  Cargo cargo = 1;
+}
+
+message InvestReq {
+  // @inject_tag: json:"build_id"
+  int32 build_id = 1; //城市Id
+  // @inject_tag: json:"invest_count"
+  int32 invest_count = 2; //投资次数
+}
+
+message GetsCityBankReq {
+  // @inject_tag: json:"build_id"
+  int32 build_id = 1; //城市Id
+}
+
+message EscapeReq {}
+
+message GetsCityCommodityReq {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"build_id"
+  int32 build_id = 3;
+}
+
+message GetsCityPurchaseReq {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"build_id"
+  int32 build_id = 3;
+}
+
+message UnsetTradeDestReq {}
+
+message CreateLandBuildReq {
+  // @inject_tag: json:"pos"
+  int32 pos = 1; // 位置，只能建筑1x1的建筑
+  // @inject_tag: json:"build_id"
+  int32 build_id = 2; // 要建造的建筑ID
+}
+
+message UpgradeLandBuildReq {int32 id = 1;}
+
+message MergeLandBuildReq {
+  // @inject_tag: json:"width"
+  int32 width = 1; // 合并的宽度
+  // @inject_tag: json:"height"
+  int32 height = 2; // 合并的高度
+  // @inject_tag: json:"ids"
+  repeated int32 ids = 3; // 用于合并的建筑，同等级，同基础建筑
+}
+
+message DeleteLandBuildReq {int32 id = 1;}
+
+message PlayerFightReportListReq{
+    int32 page_size = 1;
+    int32 page_num = 2;
+}
+message PlayerFightReportByFightIdReq{
+    int64 FightId = 1;
+}
+//----------------------------------------------------
+message EnterLandRes {
+  // @inject_tag: json:"server_time"
+  int64 server_time = 1;
+  // @inject_tag: json:"home"
+  Build home = 2; //所在王国及主城
+  // @inject_tag: json:"trade_team_status"
+  TradeTeamStatus trade_team_status = 3; //贸易队状态
+  // @inject_tag: json:"trade_team_event"
+  repeated TradeTeamEvent trade_team_event = 4; //贸易队事件
+  // @inject_tag: json:"trade_team"
+  TradeTeam trade_team = 5; //贸易队
+  // @inject_tag: json:"has_war"
+  bool has_war = 6; //是否有战役
+  // @inject_tag: json:"pos"
+  int32 pos = 7;
+}
+
+message ExitLandRes {}
+
+message ScanLandRes {
+  // @inject_tag: json:"pos"
+  int32 pos = 1;
+}
+
+message SetTradeDestRes {
+  // @inject_tag: json:"result"
+  Result result = 1; //结果
+  // @inject_tag: json:"team_status"
+  TradeTeamStatus team_status = 2;
+  // @inject_tag: json:"consume"
+  Consume consume = 3; //消耗
+}
+
+message UnsetTradeDestRes {
+  // @inject_tag: json:"result"
+  Result result = 1; //结果
+  // @inject_tag: json:"team_status"
+  TradeTeamStatus team_status = 2;
+}
+
+message GotoTradeDestRes {
+  // @inject_tag: json:"result"
+  Result result = 1; //结果
+  // @inject_tag: json:"team_status"
+  TradeTeamStatus team_status = 2;
+  // @inject_tag: json:"trade_team"
+  LandTradeTeam trade_team = 3;
+}
+
+message DeclareWarRes {
+  // @inject_tag: json:"result"
+  Result result = 1; //结果
+  // @inject_tag: json:"combat"
+  GuildCombat combat = 2; //
+}
+
+message GotoWarRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"land_army"
+  LandArmy land_army = 2;
+}
+
+message StopWarRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message TradeTeamNotify {
+  // @inject_tag: json:"trade_team"
+  LandTradeTeam trade_team = 1;
+}
+
+message GuildCombatNotify {
+  // @inject_tag: json:"combat"
+  GuildCombat combat = 1;
+}
+
+message ArmyArrivedNotify {
+  // @inject_tag: json:"land_army"
+  LandArmy land_army = 1;
+}
+
+message LandArmyNotify {
+  // @inject_tag: json:"land_army"
+  LandArmy land_army = 1;
+}
+
+message ArmyStatusNotify {
+  // @inject_tag: json:"army"
+  Army army = 1;
+}
+
+message TradeEventNotify {
+  // @inject_tag: json:"trade_team_event"
+  TradeTeamEvent trade_team_event = 1;
+}
+
+message TradeTeamStatusNotify {
+  // @inject_tag: json:"trade_team_status"
+  TradeTeamStatus trade_team_status = 1;
+}
+
+message PurchaseCargoRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"cargo"
+  Cargo cargo = 2;
+}
+
+message SaleCargoRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"cargo"
+  Cargo cargo = 2;
+}
+
+message InvestRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"bank_info"
+  BankInfo bank_info = 2;
+}
+
+message GetsCityBankRes {
+  // @inject_tag: json:"bank_info"
+  BankInfo bank_info = 1;
+}
+
+message EscapeRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+}
+
+message GetsCityCommodityRes {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"build_id"
+  int32 build_id = 3;
+  // @inject_tag: json:"total"
+  int32 total = 4;
+  // @inject_tag: json:"commodities"
+  repeated CityCommodity commodities = 5;
+}
+
+message GetsCityPurchaseRes {
+  // @inject_tag: json:"page"
+  int32 page = 1;
+  // @inject_tag: json:"per_page"
+  int32 per_page = 2;
+  // @inject_tag: json:"build_id"
+  int32 build_id = 3;
+  // @inject_tag: json:"total"
+  int32 total = 4;
+  // @inject_tag: json:"purchases"
+  repeated CityPurchase purchases = 5;
+}
+
+message VisibleBuildsNotify {
+  // @inject_tag: json:"builds"
+  repeated Build builds = 1;
+}
+
+message VisibleTradeTeamNotify {
+  // @inject_tag: json:"trade_teams"
+  repeated LandTradeTeam trade_teams = 1;
+}
+
+message VisibleArmyNotify {
+  // @inject_tag: json:"armies"
+  repeated LandArmy armies = 1;
+}
+
+message VisibleCombatNotify {
+  // @inject_tag: json:"combats"
+  repeated GuildCombat combats = 1; //战斗信息
+}
+
+message GuildParcelNotify {
+  // @inject_tag: json:"guild_id"
+  int32 guild_id = 1;
+  // @inject_tag: json:"parcels"
+  bytes parcels = 2;
+}
+
+message EnterOverNotify {}
+
+message ScanOverNotify {}
+
+message LandBuildChangeNotify {
+  repeated Build builds = 1; // 需要变更的建筑
+}
+
+message ParcelGuildNotify {
+  int32 pos = 1;
+  int32 old_guild_id = 2;
+  int32 new_guild_id = 3;
+}
+
+message CreateLandBuildRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"build"
+  Build build = 2;
+}
+
+message UpgradeLandBuildRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"build"
+  Build build = 2;
+}
+
+message MergeLandBuildRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"build"
+  Build build = 2;
+}
+
+message DeleteLandBuildRes {
+  // @inject_tag: json:"result"
+  Result result = 1;
+  // @inject_tag: json:"build"
+  Build build = 2;
+}
+
+message PlayerFightReportListRes{
+  int32  count = 2;
+  repeated PlayerFightReport player_fight_report_list = 1;
+}
+
+message PlayerFightReportByFightIdRes{
+  PlayerFightReport player_fight_report = 1;
+}
+message CombatReportNotify {
+  int32 pos = 1;
+  MapCombatReport reports = 3; //大地图战报
+}
+
+message   CombatStartOverNotify{
+  int32 pos = 1;
+  int64 attack_army_id = 2;  //攻击部队
+  int64 defense_army_id = 3; //防守部队
+  int32 status = 4 ; //1开始战斗 2结束战斗
+}
+message MapCombatReport{
+  int64 attack_army_id = 2;  //攻击部队
+  int64 defense_army_id = 3; //防守部队
+  repeated int64 attack_skill_id_list =4; //本回合攻击部队放的技能ID
+  repeated int64 defense_skill_id_list =5;
+  repeated PersonStatus attack_person_status_list = 6;
+  repeated PersonStatus defense_person_status_list = 7;
+}
+
+message FightReport {
+  int64 attack_army_id = 1;  //攻击部队
+  int64 defense_army_id = 2; //防守部队
+  int32 round = 3; //当前回合
+  repeated RoundReport round_reports = 4; //回合动作战报 每个动作一个对象
+  repeated int32 stop_buffs = 5;        // 到期的buff销毁
+}
+
+message RoundReport {
+  int64 army_id = 1; //发动攻击的部队
+  int32 pos = 2;
+  repeated  BattleEvent battle_event = 3;
+}
+
+//-----------------------------------------------------
+message BankInfo {
+  // @inject_tag: json:"invest"
+  int64 invest = 1; //王国投资额
+  // @inject_tag: json:"self_invest"
+  int32 self_invest = 2; //个人累计投资
+  // @inject_tag: json:"purchase_count"
+  int32 purchase_count = 3; //可购买特产品数量
+  // @inject_tag: json:"discount"
+  Money discount = 4; //优惠额
+  // @inject_tag: json:"products"
+  repeated int32 products = 5; //可购买特产品等级
+  // @inject_tag: json:"invests"
+  repeated GuildInvest invests = 6; //所有王国投资情况
+}
+
+message GuildInvest {
+  // @inject_tag: json:"guild"
+  Guild guild = 1; //王国
+  // @inject_tag: json:"invest"
+  int64 invest = 2; //投资额度
+}
+
+message TradeTeamEvent {
+  // @inject_tag: json:"time"
+  int64 time = 1;
+  // @inject_tag: json:"type"
+  int32 type = 2;
+  // @inject_tag: json:"result"
+  Result result = 3;
+  // @inject_tag: json:"get_goods"
+  GoodsCount get_goods = 4;
+  // @inject_tag: json:"lost_goods"
+  GoodsCount lost_goods = 5;
+}
+
+message CityCommodity {
+  // @inject_tag: json:"goods_id"
+  int32 goods_id = 1;
+  // @inject_tag: json:"count"
+  int32 count = 2;
+  // @inject_tag: json:"level"
+  int32 level = 3;
+  // @inject_tag: json:"price"
+  Money price = 4; //金币
+}
+
+message CityPurchase {
+  // @inject_tag: json:"goods_id"
+  int32 goods_id = 1;
+  // @inject_tag: json:"level"
+  int32 level = 2;
+  // @inject_tag: json:"price"
+  Money price = 3; //金币
+}
+
+message Consume {
+  // @inject_tag: json:"water"
+  int32 water = 1; //水
+  // @inject_tag: json:"food"
+  int32 food = 2; //食物
+  // @inject_tag: json:"forage"
+  int32 forage = 3; //草料
+}
+/////////////////////////////////////////////
+message PlayerFightReport {
+    int64 FightId =1; //战斗ID
+    int64 CreateTimeAt = 2;//创建时间戳
+    TheMatchReport the_match_report = 3;
+    int32 pos = 4;
+    int32 Result = 5;  // 1平  2胜 3败
+}
+
+message TheMatchReport{
+  repeated FightReport  fight_report_list= 1;
+}
+
+message BattleEvent{
+  oneof event {
+    SubSkillEvent sub_skill_event = 1;
+    AttackEvent attack_event = 2;
+    BuffEffectEvent buff_effect_event = 3;
+  }
+}
+
+enum EffectType {
+  Hurt = 0; //伤害
+  Heal = 1; //冶疗
+}
+//子技能战报集合
+message SubSkillEvent {
+  // @inject_tag: json:"skill_id"
+  int32 skill_id = 1;
+  // @inject_tag: json:"skill_name"
+  string skill_name = 6;
+  // @inject_tag: json:"person"
+  PersonStatus person  = 2; //发动技能人
+  // @inject_tag: json:"target_records"
+  repeated TargetRecord target_records = 3; // 目标战报，一个子技能有多个目标
+  // @inject_tag: json:"add_buff_record"
+  repeated AddBuffRecord add_buff_record = 4; // 添加buff战报，一个子技能有多个目标
+  // @inject_tag: json:"remove_buff_record"
+  repeated RemoveBuffRecord remove_buff_record = 5; // 需要移除的buff战报，净化类技能使用
+
+}
+//子技能单个攻击单位战报
+message TargetRecord {
+  // @inject_tag: json:"effect_type"
+  EffectType effect_type = 1;
+  // @inject_tag: json:"num"
+  int32 num = 2;      //治疗伤害量
+  // @inject_tag: json:"person"
+  PersonStatus person  = 3; //目标人
+  // @inject_tag: json:"crit"
+  bool crit = 5;     //是否暴击
+}
+
+message AddBuffRecord{
+  // @inject_tag: json:"buff_type"
+  int32 buff_type = 1; //buff类型
+  // @inject_tag: json:"buff_name"
+  string buff_name = 5;
+  // @inject_tag: json:"round"
+  int32 round = 2; //buff持续回合
+  // @inject_tag: json:"person"
+  PersonStatus person  = 3; //目标人
+  // @inject_tag: json:"buff_id"
+  int32 buff_id =4;
+}
+
+message RemoveBuffRecord{
+  // @inject_tag: json:"person"
+  PersonStatus person  = 3; //目标人
+  // @inject_tag: json:"buff_id"
+  repeated int32 buff_id =4;
+  // @inject_tag: json:"buff_name"
+  repeated  string buff_name = 5;
+}
+message AttackEvent {
+  // @inject_tag: json:"person"
+  PersonStatus person  = 2; //发动攻击人
+  // @inject_tag: json:"target_records"
+  repeated TargetRecord target_records = 3; // 目标战报，一个子技能有多个目标
+}
+// 持续掉血 持续治疗类buff
+message BuffEffectEvent{
+  // @inject_tag: json:"effect_type"
+  EffectType effect_type = 1;
+  // @inject_tag: json:"num"
+  int32 num = 2;      //治疗伤害量
+  // @inject_tag: json:"person"
+  PersonStatus person = 3; //效果承受人
+  // @inject_tag: json:"buff_id"
+  int32 buff_id =4;
+  // @inject_tag: json:"buff_name"
+  string buff_name = 5;
+}
+
+message PersonStatus {
+  // @inject_tag: json:"person_id"
+  int32 person_id = 1; //角色ID
+  // @inject_tag: json:"live_soldier"
+  int32 live_soldier = 2; //总生存士兵
+  // @inject_tag: json:"dead_soldier"
+  int32 dead_soldier = 3; //总死亡士兵
+  // @inject_tag: json:"injured_soldier"
+  int32 injured_soldier = 4; //总受伤士兵
+  // @inject_tag: json:"person_name"
+  string person_name = 5; //族人姓名
+
+  // @inject_tag: json:"cur_dead_soldier"
+  int32 cur_dead_soldier = 7; //死亡士兵数量
+  // @inject_tag: json:"cur_injured_soldier"
+  int32 cur_injured_soldier = 8; //受伤士兵数量
+  // @inject_tag: json:"heal_soldier"
+  int32 heal_soldier = 9; //治好的士兵数量
+}

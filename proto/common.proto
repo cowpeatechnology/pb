@@ -1,0 +1,644 @@
+syntax = "proto3";
+
+package pb;
+option go_package = "/pb;pb";
+
+enum Code {
+  Success = 0;             // 成功
+  MysqlErr = 1;            // 数据库异常
+  ArmyUnitNotExist = 2;    // 部队队伍不存在
+  PersonNotExist = 3;      // 族人不存在
+  GoodsNotEnough = 4;      // 物品数量不足
+  DeviceNotExist = 5;      // 设备不存在
+  MoneyNotEnough = 6;      // 货币不足
+  ArmyNotExist = 7;        // 部队不存在
+  ArmyIsBusy = 8;          // 部队正在执行任务
+  ArmyCaptainNotExist = 9; // 队长不存在
+  NotDeclareWar = 11;      // 未宣战
+  NotInWar = 12;           // 未开战
+  NotInAttackGuild = 13;   // 未加入进攻王国
+  AttackSelfGuild = 14;    // 不能进攻自己王国的据点
+  DeclareOrInWar = 15;     // 已宣战或处于战斗中
+  NoDevice = 16;           // 设备不存在
+  UnLoad = 17;             // 未装载设备
+  NoBuild = 18;            // 建筑不存在
+  NotAttackGuild = 19;     // 非进攻方不能主到停止
+  PersonIsBusy = 20;       // 族人正忙
+  MaxSoldierCount = 21;    // 兵力达到上限
+  ConfServerErr = 22;      // 配置服务异常
+  NoDrawSoulConf = 23;     // 没有抽取配置
+  MaxLevel = 24;           // 达到最大等级
+  SoulNotExist = 25;       // 族人不存在该契约
+  SoulIsLoad = 26;         // 契约已装载
+  EmptyInput = 27;         // 空输入
+  ExistPlayer = 28;        // 用户已创建角色
+  NoPlayer = 29;           // 用户未创建角色
+  NoCommodity = 30;        // 商品不存在
+  NoGift = 31;             // 礼包不存在
+  UnLoadArms = 32;         // 未装载武器
+  ArmsNotMatch = 33;       // 武器不匹配
+  TreadTeamIsBusy = 34;    // 贸易队忙
+  PlayerNotInGuild = 35;   // 玩家不在王国中
+  CommodityNotEnough = 36; // 商品不足
+  NotInGuild = 37;         // 不在王国中
+  UpMaxCarry = 38;         // 达到最大载货量
+  NoPurchase = 39;         // 未收购
+  NoCargo = 40;            // 货物未找到
+  NotFoundPath = 41;       // 未找到路径
+  CanNotPurChase = 42;     // 不能购买
+  TeacherNotExist = 43;    // 老师不存在
+  EducateFail = 44;        // 培训失败，但进度会增加
+  DeviceLoaded = 45;       // 装备已装载
+  DeploymentNotExist = 46; // 阵法不存在
+  LessThanLoadLevel = 47;  // 未达到装载等级
+  PointNotEnough = 48;     // 剩余点数不够
+  SkillTreeNotExist = 49;  // 技能树不存在
+  SkillTreeLayerErr = 50;  // 技能树层数错误
+  SkillTreeSkillErr = 51;  // 技能树ID错误
+  PositionExistBuild = 52; // 该位置已存在建筑
+  UnableToBuild = 53;      // 无法建造
+  UnableToMerge = 54;      // 无法合并
+  NotPresident = 55;       // 非王国拥有者
+  GuildRelationErr = 56;   // 当前关系不能变更成新的关系
+  NoGuildApply = 57;       // 未找到王国申请
+  WordNoExist = 58;        // 词条不存在
+  CONotExist = 59;         // 主将不存在
+  Fail = 100;              // 失败
+}
+
+message Result {
+  // @inject_tag: json:"code"
+  Code code = 1;
+}
+
+enum Gender {
+  Female = 0; //女性
+  Male = 1;   //男性
+}
+
+enum Authority {
+  President = 0;     //会长
+  VicePresident = 1; //副会长
+  Member = 100;      //会员
+}
+
+//角色基本信息
+message BasePlayer {
+  // @inject_tag: json:"id"
+  int32 id = 1;
+  // @inject_tag: json:"name"
+  string name = 2;
+  // @inject_tag: json:"gender"
+  Gender gender = 3;
+  // @inject_tag: json:"avatar_id"
+  int32 avatar_id = 4;
+  enum Status {
+    Offline = 0; //离线
+    Online = 1;  //在线
+  }
+  // @inject_tag: json:"status"
+  Status status = 5;
+  // @inject_tag: json:"combat"
+  int32 combat = 6;
+  // @inject_tag: json:"trade"
+  int32 trade = 7;
+  // @inject_tag: json:"chapter_id"
+  int32 chapter_id = 8; //章节ID
+  // @inject_tag: json:"battle_id"
+  int32 battle_id = 9; //关卡ID
+  // @inject_tag: json:"im"
+  IMData im = 10;
+}
+
+//王国信息
+message Guild {
+  // @inject_tag: json:"id"
+  int32 id = 1;
+  // @inject_tag: json:"icon"
+  int32 icon = 2; //标志
+  // @inject_tag: json:"name"
+  string name = 3; //名称
+  // @inject_tag: json:"content"
+  string content = 4; //说明
+  // @inject_tag: json:"level"
+  int32 level = 5; //等级
+  // @inject_tag: json:"members"
+  int32 members = 6; //成员数
+  // @inject_tag: json:"max_members"
+  int32 max_members = 7; //最大成员数
+  // @inject_tag: json:"combat"
+  int64 combat = 8; //战斗力
+  // @inject_tag: json:"apply_combat"
+  int32 apply_combat = 9; //申请时的战功限制
+  // @inject_tag: json:"apply_trade"
+  int32 apply_trade = 10; //申请时的贸易值限制
+  // @inject_tag: json:"im_group"
+  string im_group = 11; //聊天群
+}
+
+//王国成员详情
+message GuildMember {
+  // @inject_tag: json:"player "
+  BasePlayer player = 1;
+  // @inject_tag: json:"authority"
+  Authority authority = 2;
+  // @inject_tag: json:"contribute"
+  int32 contribute = 3;
+}
+
+message Build {
+  // @inject_tag: json:"id"
+  int32 id = 1;
+  // @inject_tag: json:"build_id"
+  int32 build_id = 2;
+  // @inject_tag: json:"type"
+  int32 type = 3;
+  // @inject_tag: json:"sub_type"
+  int32 sub_type = 4;
+  // @inject_tag: json:"level"
+  int32 level = 5;
+  // @inject_tag: json:"durability"
+  int32 durability = 6; //耐久度满级
+  // @inject_tag: json:"poses"
+  repeated int32 poses = 7;
+  // @inject_tag: json:"guild_id"
+  int32 guild_id = 8;
+  enum Status {
+    Normal = 0;    // 正常状态
+    Working = 1;   // 工作中,如农业建筑,工业建筑有生产任务
+    Building = 2;  // 建造中
+    Upgrading = 3; // 升级中
+    Merging = 4;   // 合并中
+    Deleted = 5;   // 已删除
+  }
+  // @inject_tag: json:"status"
+  Status status = 9;
+  // @inject_tag: json:"need_time"
+  int32 need_time = 10; // 变更状态所需时间，0-表示瞬间完成
+  // @inject_tag: json:"pass_time"
+  int64 start_time = 11; // 变更状态开始时间戳
+}
+
+message GoodsCount {
+  // @inject_tag: json:"goods_id"
+  int32 goods_id = 1;
+  // @inject_tag: json:"count"
+  int32 count = 2;
+}
+
+message Money {
+  // @inject_tag: json:"type"
+  int32 type = 1; //货币类型（0-钻石，1-金币）
+  // @inject_tag: json:"count"
+  int32 count = 2; //数量
+}
+
+message GuildCombat {
+  // @inject_tag: json:"id"
+  int32 id = 1;
+  // @inject_tag: json:"pos"
+  int32 pos = 2;
+  // @inject_tag: json:"attack_id"
+  int32 attack_id = 3;
+  // @inject_tag: json:"defence_id"
+  int32 defence_id = 4;
+  // @inject_tag: json:"build_id"
+  int32 build_id = 5;
+  // @inject_tag: json:"result"
+  int32 result = 6; //战斗结果(0-防守方胜利，1-进攻方胜利）
+  // @inject_tag: json:"status"
+  int32 status = 7; // 0-无战事，1-宣战，2-战斗中
+  // @inject_tag: json:"update_at"
+  int64 update_at = 8;
+  // @inject_tag: json:"need_time"
+  int32 need_time = 9;
+}
+
+enum ArmyStatus {
+  Idle = 0;      // 空闲
+  Moving = 1;    //移动中
+  Combating = 2; //战斗中
+  Defeat = 3;    //战败
+}
+
+
+enum ArmyType {
+  DefeatArmyType = 0;    //不使用
+  Rider = 1;      // 骑兵
+  Saber = 2;    //剑兵
+  Lancer = 3; //枪兵
+  Archer = 4;    //弓兵
+}
+message Army {
+  // @inject_tag: json:"id"
+  int64 id = 1;
+  // @inject_tag: json:"player_id"
+  int64 player_id = 2;
+  // @inject_tag: json:"name"
+  string name = 3;
+  // @inject_tag: json:"status"
+  ArmyStatus status = 4;
+  // @inject_tag: json:"pos"
+  int32 pos = 5;
+  // @inject_tag: json:"update_at"
+  int64 update_at = 6;
+  // @inject_tag: json:"need_time"
+  int32 need_time = 7;
+  // @inject_tag: json:"person"
+  Person person = 8; // 主将
+  ArmyType  army_type = 9;//1	骑兵 	2	剑兵 	3	枪兵 	4	弓兵
+  int32 soldier_count = 10;
+}
+
+message ArmyUnit {
+  // @inject_tag: json:"army_id"
+  int64 army_id = 1;
+  // @inject_tag: json:"pos"
+  int32 pos = 2;  //位置（1,2,3)
+  // @inject_tag: json:"person"
+  PersonInfo person = 3;
+  // @inject_tag: json:"soldier_count"
+  int32 soldier_count = 4;
+  // @inject_tag: json:"attack"
+  int32 attack = 5;
+  // @inject_tag: json:"defense"
+  int32 defense = 6;
+  // @inject_tag: json:"siege_value"
+  int32 siege_value = 7;
+  // @inject_tag: json:"move_speed"
+  int32 move_speed = 8;
+  // @inject_tag: json:"devices"
+  Devices devices = 9;
+}
+
+enum ArmyAction {
+  StandBy = 0;          //待命
+  GotoWar = 1;          //进攻
+  GotoCity = 2;         //回城
+  GotoWarNoDeclare = 3; //未宣战进攻
+  AACombating = 4; //战斗中
+  CombatFailed = 5; //战败
+}
+
+message MoveInfo {
+  // @inject_tag: json:"from_pos"
+  int32 from_pos = 1; //出发位置
+  // @inject_tag: json:"to_pos"
+  int32 to_pos = 2; //目的地位置
+  // @inject_tag: json:"current_pos"
+  int32 current_pos = 3; //当前位置
+  // @inject_tag: json:"move_speed"
+  int32 move_speed = 4; //移动速度
+  // @inject_tag: json:"path"
+  repeated int32 path = 5; //路径
+}
+
+message LandArmy {
+  // @inject_tag: json:"army_id"
+  int64 army_id = 1; //部队ID
+  string name = 2; //名称
+  // @inject_tag: json:"action"
+  ArmyAction action = 3; // 1-出征，2-回城
+  // @inject_tag: json:"move"
+  MoveInfo move = 4; //移动信息
+  int64   GuildId = 5;
+}
+
+message LandTradeTeam {
+  // @inject_tag: json:"player_id"
+  int64 player_id = 1; //玩家ID
+  // @inject_tag: json:"move"
+  MoveInfo move = 2; //移动信息
+  enum Action {
+    Moving = 0;     //移动中
+    MeetRobber = 1; //遭遇山贼
+  }
+  // @inject_tag: json:"action"
+  Action action = 3; //贸易队状态
+}
+
+enum DoWhat {
+  DoNothing = 0;   //成年:空闲
+  Childhood = 1;   //幼年
+  Dead = 2;        //死亡
+  InArmy = 3;      //在部队中
+  InTradeTeam = 4; //在贸易队中
+}
+
+message Person {
+  // @inject_tag: json:"id"
+  int64 id = 1; // ID
+  // @inject_tag: json:"parent_id"
+  int64 parent_id = 2; //父辈
+  // @inject_tag: json:"player_id"
+  int64 player_id = 3; //账号
+  // @inject_tag: json:"name"
+  string name = 4; //名称
+  // @inject_tag: json:"dna"
+  string dna = 5; // DNA
+  // @inject_tag: json:"race"
+  int32 race = 6; //种族
+  // @inject_tag: json:"quality"
+  int32 quality = 7; //品质
+  // @inject_tag: json:"level"
+  int32 level = 8; //等级
+  // @inject_tag: json:"do_what"
+  DoWhat do_what = 9; //状态
+  //@inject_tag: json:"devices"
+  PersonDevice devices = 10; //族人装备
+}
+
+message PersonDevice {
+  // @inject_tag: json:"devices"
+  map<int32, PlayerGoods> devices = 3; //装备:key-装备槽,value-装备
+}
+
+message PersonProperty {
+  // @inject_tag: json:"birthday"
+  int64 birthday = 1; //生日:培养成年的时长
+  // @inject_tag: json:"birth_rate"
+  int32 birth_rate = 2; //生育概率
+  // @inject_tag: json:"generation"
+  int32 generation = 3; //第几代族人，从0开始
+  // @inject_tag: json:"exp"
+  int32 exp = 4; //经验
+  // @inject_tag: json:"spirit"
+  int32 spirit = 5; //体力
+  // @inject_tag: json:"spirit_update_at"
+  int64 spirit_update_at = 6; //体力更新时间
+  // @inject_tag: json:"combat"
+  int32 combat = 7; //战力
+  // @inject_tag: json:"educate_progress"
+  int32 educate_progress = 8; //培养进度
+  // @inject_tag: json:"max_level"
+  int32 max_level = 9; //最大等级
+  // @inject_tag: json:"upgrade_exp"
+  int32 upgrade_exp = 10; //升级所需经验
+  // @inject_tag: json:"point"
+  int32 point = 11; //可加点数
+  // @inject_tag: json:"point_properties"
+  map<int32, float> point_properties = 12; //单独记录的加点属性
+  // @inject_tag: json:"arms"
+  map<int32, KeyFloatValues> arms = 13; //兵种属性: key-兵种，val<属性类型:值>
+  // @inject_tag: json:"properties"
+  map<int32, float> properties = 14; //属性
+  // @inject_tag: json:"words"
+  map<int32, Word> words = 15; //词条(特质)
+  // @inject_tag: json:"inherit_word"
+  int32 inherit_word = 16; //传承词条
+  // @inject_tag: json:"load_souls"
+  map<int32, LoadSoul> load_souls = 17; //装载的契约
+  // @inject_tag: json:"skill_trees"
+  map<int32, SkillTree> skill_trees = 18; //技能树
+  // @inject_tag: json:"ratios"
+  map<int32, int32> ratios = 19; //系数
+  // @inject_tag: json:"extra"
+  map<int32, float> extra = 20; //属性加成汇总
+  // @inject_tag: json:"load_skills"
+  map<int32, LoadSkill> load_skills = 21; //装载的技能
+  // @inject_tag: json:"suitability_of_arms"
+  map<int32, Suitability> suitability_of_arms = 22; //兵种属性: key-ArmyType兵种，val<适应性>
+}
+
+message Word {
+  // @inject_tag: json:"name"
+  string name = 1; //名称
+  // @inject_tag: json:"type"
+  int32 type = 2; //类型：将领，士兵，军事
+  // @inject_tag: json:"sub_type"
+  int32 sub_type = 3; //对象：全种族，人族，全兵系，枪兵……
+  // @inject_tag: json:"quality"
+  int32 quality = 4; //品质
+  // @inject_tag: json:"ratio"
+  bool ratio = 5; // true:按比例加成（万分比）,false:按数值加成
+  // @inject_tag: json:"properties"
+  map<int32, float> properties = 6; //属性
+}
+
+message LoadSoul {
+  // @inject_tag: json:"load_level"
+  int32 load_level = 1; //加载族人等级
+  // @inject_tag: json:"soul_id"
+  int32 soul_id = 2; //契约Id
+  // @inject_tag: json:"soul_level"
+  int32 soul_level = 3; //契约等级
+}
+
+message LoadSkill{
+  // @inject_tag: json:"skill_id"
+  int32 skill_id = 2; //技能Id
+  // @inject_tag: json:"skill_level"
+  int32 skill_level = 3; //技能等级
+}
+
+message SkillTree {
+  // @inject_tag: json:"exp"
+  int32 exp = 1;
+  // @inject_tag: json:"layers"
+  map<int32, SkillTreeLayer> layers = 2; //点亮层
+}
+
+message SkillTreeLayer {
+  // @inject_tag: json:"max_lighted"
+  int32 max_lighted = 1; //可点亮数
+  // @inject_tag: json:"skills"
+  repeated int32 skills = 2; //已点亮技能
+}
+
+message PersonInfo {
+  // @inject_tag: json:"person"
+  Person person = 1; //族人
+  // @inject_tag: json:"properties"
+  PersonProperty properties = 2; //属性
+}
+
+message PlayerSoul {
+  // @inject_tag: json:"player_id"
+  int64 player_id = 1; //玩家ID
+  // @inject_tag: json:"soul_id"
+  int32 soul_id = 2; //契约ID
+  // @inject_tag: json:"quality"
+  int32 quality = 3; //品质
+  // @inject_tag: json:"sub_device_type"
+  int32 sub_device_type = 4; //武器
+  // @inject_tag: json:"count"
+  int32 count = 5; //数量
+}
+
+message PersonSoul {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1; //族人ID
+  // @inject_tag: json:"soul_id"
+  int32 soul_id = 2; //契约ID
+  // @inject_tag: json:"quality"
+  int32 quality = 3; //品质
+  // @inject_tag: json:"sub_device_type"
+  int32 sub_device_type = 4; //武器
+  // @inject_tag: json:"level"
+  int32 level = 5; //契约等级
+  // @inject_tag: json:"loaded"
+  bool loaded = 6; //是否被装载
+}
+
+//参战的角色
+message FightPerson {
+  // @inject_tag: json:"person_id"
+  int64 person_id = 1;
+  // @inject_tag: json:"positions"
+  repeated int32 positions = 2;
+}
+
+message LineupInfo {
+  // @inject_tag: json:"deployment_id"
+  int32 deployment_id = 1; //阵法Id
+  // @inject_tag: json:"persons"
+  map<int32, Person> persons = 2; //参战族人 key:pos(1-9)
+  // @inject_tag: json:"full_level"
+  map<int32, int32> full_level = 3; //满级属性
+}
+
+message Reward {
+  // @inject_tag: json:"type"
+  int32 type = 1; // 0-货币，1-物品
+  // @inject_tag: json:"id"
+  int32 id = 2; //物品或货币ID
+  // @inject_tag: json:"count"
+  int32 count = 3; //数量
+}
+
+message FightPersonInfo {
+  // @inject_tag: json:"combat_id"
+  int32 combat_id = 1; //战斗中唯一id
+  // @inject_tag: json:"person"
+  PersonInfo person = 2;
+  // @inject_tag: json:"positions"
+  repeated int32 positions = 3;
+}
+
+message Cargo {
+  // @inject_tag: json:"goods_id"
+  int32 goods_id = 1; //物品ID
+  // @inject_tag: json:"count"
+  int32 count = 2; //数量
+  // @inject_tag: json:"cost"
+  Money cost = 3; //购入成本
+}
+
+message TradeTeamStatus {
+  // @inject_tag: json:"path_len"
+  int32 path_len = 1; //路径长度
+  // @inject_tag: json:"move_spend"
+  int32 move_spend = 2; //移动速度
+  // @inject_tag: json:"water"
+  int32 water = 3; //水
+  // @inject_tag: json:"food"
+  int32 food = 4; //食物
+  // @inject_tag: json:"forage"
+  int32 forage = 5; //草料
+  // @inject_tag: json:"status"
+  int32 status = 6; //状态（0-无贸易，1-设置路径，2-移动中，3-遭遇战斗）
+  // @inject_tag: json:"to_build"
+  int32 to_build = 7; //目的地
+  // @inject_tag: json:"to_pos"
+  int32 to_pos = 8; //目的地位置
+  // @inject_tag: json:"cur_build"
+  int32 cur_build = 9; //所有或出发城市
+  // @inject_tag: json:"cur_pos"
+  int32 cur_pos = 10; //当前所在位置
+}
+
+message TradeTeam {
+  // @inject_tag: json:"carry"
+  int32 carry = 1; //货物量
+  // @inject_tag: json:"vehicle"
+  Vehicle vehicle = 4; //交通工具
+  // @inject_tag: json:"cargoes"
+  repeated Cargo cargoes = 5; //货物
+  // @inject_tag: json:"persons"
+  repeated FightPerson persons = 6; //族人
+  // @inject_tag: json:"trade_persons"
+  repeated TradePerson trade_persons = 7; //族人,前端展示
+}
+
+message TradePerson {
+  // @inject_tag: json:"person"
+  Person person = 1;
+  // @inject_tag: json:"positions"
+  repeated int32 positions = 2;
+}
+
+message Vehicle {
+  // @inject_tag: json:"level"
+  int32 level = 1; //等级
+  // @inject_tag: json:"name"
+  string name = 2; //名称
+  // @inject_tag: json:"speed"
+  int32 speed = 3; //速度
+  // @inject_tag: json:"duration"
+  int32 duration = 4; //当前耐久度
+  // @inject_tag: json:"duration_cut"
+  int32 duration_cut = 5; //耐久度消耗（每移动一格消耗值）
+  // @inject_tag: json:"forage"
+  int32 forage = 6; //燃料消耗（每移动一格消耗值）
+  // @inject_tag: json:"maintain"
+  Money maintain = 7; //维护
+  //（每修复一点耐久度需要的货币值,界面展示（100-duration）*maintain.count)
+  // @inject_tag: json:"upgrade"
+  Money upgrade = 8; //升级
+  // @inject_tag: json:"carry"
+  int32 carry = 9; //载货量
+  // @inject_tag: json:"flee"
+  int32 flee = 10; //逃跑概率
+}
+
+message PlayerGoods {
+  // @inject_tag: json:"id"
+  int64 id = 1; //玩家物品ID
+  // @inject_tag: json:"goods_id"
+  int32 goods_id = 2; //系统物品ID，标记一类物品
+  // @inject_tag: json:"count"
+  int32 count = 3; //数量
+  // @inject_tag: json:"quality"
+  int32 quality = 4; //品质
+  // @inject_tag: json:"level"
+  int32 level = 5; //仅装备时有等级
+  // @inject_tag: json:"load_level"
+  int32 load_level = 6; //装载限制等级
+}
+
+message Devices {
+  // @inject_tag: json:"devices"
+  map<int32, PlayerGoods> devices = 1;
+}
+
+message KeyValues {
+  // @inject_tag: json:"values"
+  map<int32, int32> values = 1;
+}
+
+message Key64Values {
+  // @inject_tag: json:"values"
+  map<int64, int32> values = 1;
+}
+
+message KeyFloatValues {
+  // @inject_tag: json:"values"
+  map<int32, float> values = 1;
+}
+
+message IMData {
+  // @inject_tag: json:"userID"
+  string user_id = 1;
+  // @inject_tag: json:"token"
+  string token = 2;
+  // @inject_tag: json:"expiredTime"
+  int64 expired_time = 3;
+}
+enum Suitability {
+  S =0;
+  A = 1;
+  B =2;
+  C =3;
+  D =4;
+  }
+
